@@ -1,0 +1,17 @@
+{
+  "name": "maison-memoria",
+  "version": "1.0.0",
+  "description": "Maison Memoria - Luxury perfumery inspired by India's sacred places",
+  "scripts": {
+    "start": "open index.html"
+  },
+  "keywords": [
+    "luxury",
+    "perfume",
+    "ar",
+    "loreal",
+    "brandstorm"
+  ],
+  "author": "Arnab, Sakshee & Gaurav",
+  "license": "MIT"
+}

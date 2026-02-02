@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maison  | High Perfumery</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts: Cinzel (Headers), Playfair (Italics), Lato (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Lato:wght@300;400&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Icons & Animation -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            100: '#F9F1D8',
+                            200: '#F0E6C0',
+                            300: '#DFC06F',
+                            400: '#D4AF37', // Brand Gold
+                            500: '#AA8C2C',
+                            900: '#2A230B'
+                        },
+                        dark: {
+                            950: '#050505', // Deepest Black
+                            900: '#0A0A0A',
+                            800: '#121212'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Cinzel', 'serif'],
+                        italic: ['Playfair Display', 'serif'],
+                        body: ['Lato', 'sans-serif']
+                    },
+                    backgroundImage: {
+                        'noise': "url('https://www.transparenttextures.com/patterns/stardust.png')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* --- LUXURY FINISHES --- */
+        body {
+            background-color: #050505;
+            color: #F9F1D8;
+            overflow-x: hidden;
+        }
+
+        /* Soft Glow Gradients */
+        .glow-text {
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+        
+        .glass-panel {
+            background: rgba(18, 18, 18, 0.35);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+
+        /* Button Hover Effects */
+        .btn-gold {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        .btn-gold::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        .btn-gold:hover::before { left: 100%; }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.15); }
+
+        /* Phone Simulator Transitions */
+        .screen-transition { transition: opacity 0.4s ease-in-out; }
+        
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+
+        /* Loader Line */
+        .scan-line {
+            width: 100%; height: 2px;
+            background: #D4AF37;
+            box-shadow: 0 0 10px #D4AF37;
+            animation: scan 2s linear infinite;
+        }
+        @keyframes scan {
+            0% { transform: translateY(-100px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(100px); opacity: 0; }
+        }
+
+        /* Golden Firefly Sparkles */
+        .firefly {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #D4AF37;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px rgba(212, 175, 55, 0.8),
+                        0 0 20px 4px rgba(212, 175, 55, 0.4),
+                        0 0 30px 6px rgba(212, 175, 55, 0.2);
+            animation: firefly-float 8s ease-in-out infinite;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        @keyframes firefly-float {
+            0% { 
+                opacity: 0; 
+                transform: translate(0, 0) scale(0.5);
+            }
+            10% { 
+                opacity: 1; 
+                transform: translate(10px, -20px) scale(1);
+            }
+            30% { 
+                opacity: 0.8; 
+                transform: translate(-15px, -80px) scale(1.2);
+            }
+            50% { 
+                opacity: 0.6; 
+                transform: translate(20px, -140px) scale(0.8);
+            }
+            70% { 
+                opacity: 0.4; 
+                transform: translate(-10px, -200px) scale(1);
+            }
+            90% { 
+                opacity: 0.1; 
+                transform: translate(5px, -260px) scale(0.6);
+            }
+            100% { 
+                opacity: 0; 
+                transform: translate(0, -300px) scale(0.3);
+            }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-gold-400 selection:text-dark-950">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 transition-all duration-300 top-0 glass-panel border-b-0 rounded-b-3xl mx-auto max-w-[95%] mt-4 left-0 right-0">
+        <div class="px-8 h-20 flex justify-between items-center">
+            <!-- Mobile Menu -->
+            <button class="md:hidden text-gold-100 text-2xl"><i class="ph ph-list"></i></button>
+
+            <!-- Brand -->
+            <a href="#" class="text-2xl font-serif font-bold tracking-[0.15em] text-gold-100 flex items-center gap-2 group">
+                MEMOR <span class="text-gold-400">RIES</span>
+            </a>
+
+            <!-- Links -->
+            <div class="hidden md:flex space-x-12 text-xs font-bold tracking-[0.2em] text-gray-400 uppercase ml-auto">
+                <a href="#collection" class="hover:text-gold-400 transition-colors duration-300 relative group">
+                    Collection
+                    <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-gold-400 transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#app" class="hover:text-gold-400 transition-colors duration-300 relative group">
+                    The Ritual
+                    <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-gold-400 transition-all group-hover:w-full"></span>
+                </a>
+            </div>
+
+            <!-- Cart Icon -->
+            <div class="relative cursor-pointer group ml-8" onclick="toggleCart()">
+                <i class="ph ph-handbag text-2xl text-gold-100 group-hover:text-gold-400 transition"></i>
+                <span id="cart-badge" class="absolute -top-1 -right-2 bg-gold-500 text-dark-950 text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center opacity-0 transition-opacity">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-drawer" class="fixed inset-y-0 right-0 w-96 bg-[#0a0a0a] border-l border-white/5 shadow-2xl z-[60] transform translate-x-full transition-transform duration-500 flex flex-col">
+        <div class="p-8 border-b border-white/5 flex justify-between items-center">
+            <h2 class="font-serif text-xl text-gold-100">Your Selection</h2>
+            <button onclick="toggleCart()"><i class="ph ph-x text-xl text-gray-400 hover:text-white"></i></button>
+        </div>
+        <div id="cart-items" class="flex-1 p-8 overflow-y-auto space-y-6">
+            <p class="text-gray-600 text-center italic mt-10">Your sanctuary is empty.</p>
+        </div>
+        <div class="p-8 border-t border-white/5 bg-dark-800">
+            <div class="flex justify-between mb-6 font-serif text-gold-200">
+                <span>Total</span>
+                <span id="cart-total">₹0</span>
+            </div>
+            <button class="w-full py-4 bg-gold-400 text-dark-950 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-white transition duration-300" onclick="openCheckout()">
+                Begin Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="closeModal()"></div>
+        <div class="relative w-full max-w-5xl bg-dark-900 border border-white/10 rounded-[3rem] shadow-2xl overflow-hidden grid md:grid-cols-2 transform scale-95 opacity-0 transition-all duration-500" id="modal-content">
+            <!-- Visual -->
+            <div class="relative h-[400px] md:h-auto bg-dark-800 group">
+                <img id="modal-img" src="" class="absolute inset-0 w-full h-full object-cover opacity-80 transition duration-[3s] group-hover:scale-105">
+                <div class="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent"></div>
+                <button onclick="closeModal()" class="absolute top-8 left-8 text-white hover:text-gold-400 z-20">
+                    <i class="ph ph-arrow-left text-2xl"></i>
+                </button>
+            </div>
+            <!-- Details -->
+            <div class="p-10 md:p-16 flex flex-col overflow-y-auto max-h-[90vh]">
+                <span id="modal-loc" class="text-gold-500 text-xs font-bold tracking-[0.2em] uppercase mb-3">Location</span>
+                <h2 id="modal-title" class="text-5xl font-serif text-white mb-6 leading-none">Title</h2>
+                <div class="flex gap-4 mb-8 text-gray-400 text-sm italic" id="modal-notes">
+                </div>
+                <p id="modal-desc" class="text-gray-300 font-body leading-relaxed mb-8 border-l-2 border-gold-500/30 pl-6">
+                    Description
+                </p>
+                
+                <!-- What Makes It Special -->
+                <div class="mb-6 bg-gradient-to-r from-gold-900/20 to-transparent p-5 rounded-2xl border-l-2 border-gold-400">
+                    <div class="flex items-start gap-3 mb-2">
+                        <i class="ph-fill ph-sparkle text-gold-400 text-lg mt-1"></i>
+                        <h4 class="text-white text-sm font-bold uppercase tracking-wider">What Makes It Special</h4>
+                    </div>
+                    <p id="modal-special" class="text-gray-300 text-sm leading-relaxed">Special details</p>
+                </div>
+
+                <!-- Indian Roots Connection -->
+                <div class="mb-6 bg-gradient-to-r from-orange-900/10 to-transparent p-5 rounded-2xl border-l-2 border-orange-400/50">
+                    <div class="flex items-start gap-3 mb-2">
+                        <i class="ph-fill ph-leaf text-orange-400 text-lg mt-1"></i>
+                        <h4 class="text-white text-sm font-bold uppercase tracking-wider">Rooted In Heritage</h4>
+                    </div>
+                    <p id="modal-roots" class="text-gray-300 text-sm leading-relaxed">Roots details</p>
+                </div>
+
+                <!-- Mind & Body Calm -->
+                <div class="mb-6 bg-gradient-to-r from-blue-900/10 to-transparent p-5 rounded-2xl border-l-2 border-blue-400/50">
+                    <div class="flex items-start gap-3 mb-2">
+                        <i class="ph-fill ph-heart-straight text-blue-400 text-lg mt-1"></i>
+                        <h4 class="text-white text-sm font-bold uppercase tracking-wider">The Calm Effect</h4>
+                    </div>
+                    <p id="modal-calm" class="text-gray-300 text-sm leading-relaxed">Calm details</p>
+                </div>
+
+                <!-- Sacred Ritual -->
+                <div class="mb-8 bg-dark-800 rounded-2xl p-5 border border-white/5">
+                    <div class="flex items-start gap-3 mb-2">
+                        <i class="ph-fill ph-hands-praying text-purple-400 text-lg mt-1"></i>
+                        <div>
+                            <h4 class="text-white text-sm font-bold uppercase tracking-wider">Sacred Ritual</h4>
+                            <p id="modal-ritual" class="text-gray-400 text-xs mt-2 italic">Ritual details</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-dark-800 rounded-2xl p-6 mb-8 border border-white/5 flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full bg-gold-400/10 flex items-center justify-center text-gold-400">
+                        <i class="ph ph-cube-transparent text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-white text-sm font-bold">AR Enabled</h4>
+                        <p class="text-xs text-gray-500">Scan bottle to unlock memory portal.</p>
+                    </div>
+                </div>
+
+                <div class="mt-auto flex gap-4 sticky bottom-0 bg-dark-900 pt-4">
+                    <button id="modal-btn" class="flex-1 bg-gold-400 text-dark-950 py-4 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-white transition btn-gold">
+                        Add to Cart
+                    </button>
+                    <button id="like-btn" aria-pressed="false" class="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center text-white hover:border-gold-400 hover:text-gold-400 transition">
+                        <i id="like-icon" class="ph ph-heart text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="fixed inset-0 z-[110] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/95 backdrop-blur-xl" onclick="closeCheckout()"></div>
+        <div class="relative w-full max-w-6xl bg-dark-900 border border-white/10 rounded-[3rem] shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-500" id="checkout-content">
+            <div class="grid md:grid-cols-5">
+                <!-- Left Side - Order Summary -->
+                <div class="md:col-span-2 bg-dark-950 p-8 md:p-12 border-r border-white/5">
+                    <div class="flex items-center justify-between mb-8">
+                        <h2 class="text-2xl font-serif text-gold-100">Order Summary</h2>
+                        <button onclick="closeCheckout()" class="text-gray-400 hover:text-white transition">
+                            <i class="ph ph-x text-2xl"></i>
+                        </button>
+                    </div>
+                    
+                    <div id="checkout-items" class="space-y-6 mb-8 max-h-[400px] overflow-y-auto">
+                    </div>
+
+                    <div class="border-t border-white/10 pt-6 space-y-4">
+                        <div class="flex justify-between text-gray-400 text-sm">
+                            <span>Subtotal</span>
+                            <span id="checkout-subtotal">₹0</span>
+                        </div>
+                        <div class="flex justify-between text-gray-400 text-sm">
+                            <span>Shipping</span>
+                            <span class="text-gold-400">Free</span>
+                        </div>
+                        <div class="flex justify-between text-gray-400 text-sm">
+                            <span>Tax (18% GST)</span>
+                            <span id="checkout-tax">₹0</span>
+                        </div>
+                        <div class="border-t border-white/10 pt-4 flex justify-between font-serif text-xl text-gold-100">
+                            <span>Total</span>
+                            <span id="checkout-total">₹0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side - Checkout Form -->
+                <div class="md:col-span-3 p-8 md:p-12 overflow-y-auto max-h-[90vh]">
+                    <h2 class="text-3xl font-serif text-white mb-2">Complete Your Order</h2>
+                    <p class="text-gray-500 text-sm mb-10">Your journey to luxury begins here</p>
+
+                    <form id="checkout-form" class="space-y-8">
+                        <!-- Contact Information -->
+                        <div>
+                            <h3 class="text-lg font-serif text-gold-100 mb-4 flex items-center gap-2">
+                                <i class="ph ph-user text-gold-400"></i>
+                                Contact Information
+                            </h3>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2">Full Name</label>
+                                    <input type="text" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2">Email Address</label>
+                                    <input type="email" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2">Phone Number</label>
+                                    <input type="tel" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Shipping Address -->
+                        <div>
+                            <h3 class="text-lg font-serif text-gold-100 mb-4 flex items-center gap-2">
+                                <i class="ph ph-map-pin text-gold-400"></i>
+                                Shipping Address
+                            </h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2">Street Address</label>
+                                    <input type="text" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
+                                </div>
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div>
+                                        <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2">City</label>
+                                        <input type="text" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2">State</label>
+                                        <input type="text" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2">PIN Code</label>
+                                        <input type="text" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Method -->
+                        <div>
+                            <h3 class="text-lg font-serif text-gold-100 mb-4 flex items-center gap-2">
+                                <i class="ph ph-credit-card text-gold-400"></i>
+                                Payment Method
+                            </h3>
+                            <div class="grid grid-cols-3 gap-4 mb-6">
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="payment" value="card" checked class="peer sr-only">
+                                    <div class="p-4 border border-white/10 rounded-xl bg-dark-800 peer-checked:border-gold-400 peer-checked:bg-gold-900/20 transition flex flex-col items-center gap-2 text-center">
+                                        <i class="ph-fill ph-credit-card text-2xl text-gray-400 peer-checked:text-gold-400"></i>
+                                        <span class="text-xs text-gray-400">Card</span>
+                                    </div>
+                                </label>
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="payment" value="upi" class="peer sr-only">
+                                    <div class="p-4 border border-white/10 rounded-xl bg-dark-800 peer-checked:border-gold-400 peer-checked:bg-gold-900/20 transition flex flex-col items-center gap-2 text-center">
+                                        <i class="ph-fill ph-device-mobile text-2xl text-gray-400 peer-checked:text-gold-400"></i>
+                                        <span class="text-xs text-gray-400">UPI</span>
+                                    </div>
+                                </label>
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="payment" value="cod" class="peer sr-only">
+                                    <div class="p-4 border border-white/10 rounded-xl bg-dark-800 peer-checked:border-gold-400 peer-checked:bg-gold-900/20 transition flex flex-col items-center gap-2 text-center">
+                                        <i class="ph-fill ph-package text-2xl text-gray-400 peer-checked:text-gold-400"></i>
+                                        <span class="text-xs text-gray-400">COD</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div id="card-details" class="grid md:grid-cols-2 gap-4">
+                                <div class="md:col-span-2">
+                                    <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2">Card Number</label>
+                                    <input type="text" placeholder="1234 5678 9012 3456" class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2">Expiry Date</label>
+                                    <input type="text" placeholder="MM/YY" class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2">CVV</label>
+                                    <input type="text" placeholder="123" class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Special Instructions -->
+                        <div>
+                            <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2">Special Instructions (Optional)</label>
+                            <textarea rows="3" class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-gold-400 focus:outline-none transition resize-none" placeholder="Any special requests for your order..."></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="w-full bg-gold-400 text-dark-950 py-5 rounded-full font-bold uppercase tracking-widest text-sm hover:bg-white transition btn-gold flex items-center justify-center gap-3">
+                            <i class="ph-fill ph-lock text-xl"></i>
+                            Complete Order
+                        </button>
+
+                        <p class="text-center text-xs text-gray-600 italic">
+                            By completing this order, you agree to our Terms & Conditions
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <header class="relative h-screen flex items-center justify-center overflow-hidden">
+        <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover opacity-30">
+            <source src="https://cdn.pixabay.com/video/2020/02/25/32894-394348505_large.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-gradient-to-b from-dark-950/80 via-transparent to-dark-950"></div>
+        
+        <!-- Golden Fireflies -->
+        <div class="firefly" style="top: 70%; left: 15%; animation-delay: 0s;"></div>
+        <div class="firefly" style="top: 65%; left: 25%; animation-delay: 1.5s;"></div>
+        <div class="firefly" style="top: 75%; left: 35%; animation-delay: 3s;"></div>
+        <div class="firefly" style="top: 60%; left: 45%; animation-delay: 0.5s;"></div>
+        <div class="firefly" style="top: 80%; left: 55%; animation-delay: 2.5s;"></div>
+        <div class="firefly" style="top: 70%; left: 65%; animation-delay: 4s;"></div>
+        <div class="firefly" style="top: 68%; left: 75%; animation-delay: 1s;"></div>
+        <div class="firefly" style="top: 72%; left: 85%; animation-delay: 3.5s;"></div>
+        <div class="firefly" style="top: 85%; left: 20%; animation-delay: 2s;"></div>
+        <div class="firefly" style="top: 78%; left: 40%; animation-delay: 4.5s;"></div>
+        <div class="firefly" style="top: 82%; left: 60%; animation-delay: 0.8s;"></div>
+        <div class="firefly" style="top: 76%; left: 80%; animation-delay: 3.2s;"></div>
+        <div class="firefly" style="top: 90%; left: 10%; animation-delay: 1.8s;"></div>
+        <div class="firefly" style="top: 88%; left: 30%; animation-delay: 4.2s;"></div>
+        <div class="firefly" style="top: 92%; left: 50%; animation-delay: 2.7s;"></div>
+        <div class="firefly" style="top: 86%; left: 70%; animation-delay: 0.3s;"></div>
+        <div class="firefly" style="top: 94%; left: 90%; animation-delay: 3.8s;"></div>
+        
+        <div class="relative z-10 text-center px-6 max-w-5xl gs-reveal">
+            <div class="inline-block border border-gold-400/30 rounded-full px-6 py-2 mb-8 backdrop-blur-sm">
+                <span class="text-gold-400 text-[10px] font-bold tracking-[0.4em] uppercase">L'Oréal Luxe Innovation</span>
+            </div>
+            <h1 class="text-6xl md:text-8xl font-serif text-white mb-6 leading-tight">
+                Not Just a Fragrance. <br>
+                <span class="font-italic text-transparent bg-clip-text bg-gradient-to-r from-gold-200 to-gold-500 italic pr-4">A Memory, Bottled.</span>
+            </h1>
+            <p class="text-gray-300 font-body font-light text-lg tracking-wide mb-12 max-w-xl mx-auto">
+                Culturally inspired scents designed to preserve the soul of India’s most sacred places in architectural glass.
+            </p>
+            <div class="flex gap-6 justify-center">
+                <a href="#collection" class="bg-gold-400 text-dark-950 px-10 py-4 rounded-full text-xs font-bold uppercase tracking-[0.2em] btn-gold">
+                    Explore Collection
+                </a>
+                <a href="#app" class="border border-white/20 text-white px-10 py-4 rounded-full text-xs font-bold uppercase tracking-[0.2em] hover:bg-white/10 transition">
+                    The App
+                </a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 animate-bounce text-gold-400">
+            <i class="ph ph-caret-down text-2xl"></i>
+        </div>
+    </header>
+
+    <!-- COLLECTION -->
+    <section id="collection" class="py-32 relative bg-dark-950">
+        <!-- Abstract Decoration -->
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-400/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-24 gs-reveal">
+                <h2 class="text-4xl font-serif text-white mb-4">The Heritage Archive</h2>
+                <div class="h-[1px] w-24 bg-gradient-to-r from-transparent via-gold-400 to-transparent mx-auto"></div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-10" id="product-grid">
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE APP SIMULATOR -->
+    <section id="app" class="py-32 bg-[#080808] relative overflow-hidden border-t border-white/5">
+        <div class="container mx-auto px-6 grid lg:grid-cols-2 gap-24 items-center">
+            
+            <!-- Controls (Left) -->
+            <div class="gs-reveal">
+                <span class="text-gold-500 text-xs font-bold tracking-[0.3em] uppercase mb-4 block">Connected Ritual</span>
+                <h2 class="text-5xl font-serif text-white mb-8">The Digital <span class="font-italic text-gold-200">Sanctum</span></h2>
+                <p class="text-gray-400 font-body leading-loose mb-12">
+                    Every bottle is a key. Tap your phone to the cap to unlock the <strong>Maison Memoria App</strong>. Experience features designed to deepen your emotional connection.
+                </p>
+
+                <!-- Interactive Buttons -->
+                <div class="space-y-6">
+                    <button onclick="changeScreen('scan')" class="group w-full p-6 rounded-3xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-gold-400/30 transition text-left flex items-center gap-6">
+                        <div class="w-12 h-12 rounded-full bg-black flex items-center justify-center text-gold-400 border border-gold-400/20 group-hover:scale-110 transition">
+                            <i class="ph ph-scan text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-serif text-lg">NFC Authentication</h4>
+                            <p class="text-xs text-gray-500">Tap to verify authenticity & ownership.</p>
+                        </div>
+                    </button>
+
+                    <button onclick="changeScreen('journal')" class="group w-full p-6 rounded-3xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-gold-400/30 transition text-left flex items-center gap-6">
+                        <div class="w-12 h-12 rounded-full bg-black flex items-center justify-center text-gold-400 border border-gold-400/20 group-hover:scale-110 transition">
+                            <i class="ph ph-book-open text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-serif text-lg">Memory Journal</h4>
+                            <p class="text-xs text-gray-500">Log your emotions with AI prompts.</p>
+                        </div>
+                    </button>
+
+                    <button onclick="changeScreen('ar')" class="group w-full p-6 rounded-3xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-gold-400/30 transition text-left flex items-center gap-6">
+                        <div class="w-12 h-12 rounded-full bg-black flex items-center justify-center text-gold-400 border border-gold-400/20 group-hover:scale-110 transition">
+                            <i class="ph ph-cube-transparent text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-serif text-lg">AR Portal</h4>
+                            <p class="text-xs text-gray-500">Revisit the sacred place in 3D.</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Phone (Right) -->
+            <div class="flex justify-center relative gs-reveal">
+                <!-- Glowing Aura -->
+                <div class="absolute inset-0 bg-gold-400/20 blur-[100px] rounded-full"></div>
+
+                <!-- Phone Frame -->
+                <div class="relative w-[350px] h-[700px] bg-black rounded-[50px] border-[8px] border-[#1a1a1a] shadow-2xl overflow-hidden ring-1 ring-white/10 animate-float z-10">
+                    <!-- Dynamic Island -->
+                    <div class="absolute top-6 left-1/2 -translate-x-1/2 w-32 h-8 bg-black rounded-full z-20"></div>
+
+                    <!-- Screen -->
+                    <div id="phone-screen" class="w-full h-full bg-[#0a0a0a] relative flex flex-col pt-16 px-6 pb-8 screen-transition">
+                        <!-- Default Content (Home) -->
+                        <div class="flex-1 flex flex-col items-center justify-center text-center">
+                            <div class="w-24 h-24 rounded-full border border-gold-400/30 flex items-center justify-center mb-6 animate-pulse">
+                                <i class="ph ph-drop text-4xl text-gold-400"></i>
+                            </div>
+                            <h3 class="font-serif text-2xl text-white mb-2">Sanctuary</h3>
+                            <p class="text-xs text-gray-500">Select an experience.</p>
+                        </div>
+                        
+                        <!-- Nav Bar -->
+                        <div class="h-16 bg-[#111] rounded-full flex justify-around items-center text-gray-500">
+                            <i class="ph-fill ph-house text-gold-400"></i>
+                            <i class="ph ph-heart"></i>
+                            <i class="ph ph-user"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black pt-24 pb-12 border-t border-white/5 text-center">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-serif text-gold-100 mb-6 tracking-widest">MAISON MEMORIA</h2>
+            <p class="text-gray-500 font-serif italic mb-12">"Fragrance That Outlives Time."</p>
+            
+            <div class="flex justify-center gap-8 mb-12">
+                <a href="#" class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-gold-400 hover:text-black transition">
+                    <i class="ph ph-instagram-logo text-xl"></i>
+                </a>
+                <a href="#" class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-gold-400 hover:text-black transition">
+                    <i class="ph ph-twitter-logo text-xl"></i>
+                </a>
+            </div>
+
+            <p class="text-gray-700 text-[10px] uppercase tracking-widest">© 2026 L'Oréal Brandstorm Entry. Designed by Arnab, Sakshee & Gaurav</p>
+        </div>
+    </footer>
+
+    <!-- LOGIC -->
+    <script>
+        // --- DATA ---
+        const products = [
+            {
+                id: 1,
+                name: "Banaras Eternal",
+                sub: "Spiritual Oud",
+                location: "Varanasi, India",
+                price: 15500,
+                img: "vanaras.png",
+                desc: "The scent of wet stone, marigold garlands, and the spiritual smoke of the evening aarti.",
+                notes: ["Sandalwood", "River Clay", "Marigold"],
+                special: "Crafted with authentic Ganga clay harvested during Kartik Purnima, this fragrance captures 5,000 years of spiritual awakening.",
+                roots: "Every drop connects you to the eternal ghats where millions have sought moksha. The sandalwood whispers ancient Vedic chants, grounding you in India's timeless soul.",
+                calm: "Reduces stress by 40% through aromatherapy proven to lower cortisol. The oud's earthy depth activates theta brain waves, inducing meditative calm within minutes.",
+                ritual: "Handcrafted by 5th-generation perfumers in Kannauj"
+            },
+            {
+                id: 2,
+                name: "Golden Mirage",
+                sub: "Saffron Rose",
+                location: "Amritsar, India",
+                price: 16000,
+                img: "golden temple.png",
+                desc: "A radiant composition reflecting the Golden Temple. Warm saffron and rose attar meet white musk.",
+                notes: ["Saffron", "Rose Attar", "White Musk"],
+                special: "Infused with 24K gold leaf particles and Kashmiri saffron from Pampore—the world's most precious spice, harvested at dawn.",
+                roots: "Honors the Sikh spirit of selfless service (seva) and unity. Each note reflects the Golden Temple's shimmering sarovar, where pilgrims find equality and peace.",
+                calm: "Saffron's crocin compound naturally uplifts mood and combats anxiety. Rose attar harmonizes heart rhythms, creating emotional balance and inner warmth.",
+                ritual: "Contains prayers whispered during bottling ceremonies"
+            },
+            {
+                id: 3,
+                name: "Monk's Whisper",
+                sub: "Cedar Calm",
+                location: "Bodhgaya, India",
+                price: 15500,
+                img: "bodhgaya.png",
+                desc: "Absolute stillness. Inspired by the Bodhi tree and the crisp linen robes of monks in meditation.",
+                notes: ["Champa", "Linen", "Cedarwood"],
+                special: "Aged in Himalayan cedar barrels for 6 months under full moon cycles. Contains champa essence from trees blessed by Tibetan monks.",
+                roots: "Where Buddha attained enlightenment 2,500 years ago. This scent carries the profound silence of awakening, connecting you to India's Buddhist heritage.",
+                calm: "Cedarwood's sesquiterpenes increase oxygen to the brain, enhancing focus and clarity. Champa induces alpha waves—the gateway to deep meditation and inner peace.",
+                ritual: "Every bottle blessed during Vesak meditation ceremonies"
+            },
+            {
+                id: 4,
+                name: "Puri Reverie",
+                sub: "Temple Breeze",
+                location: "Jagannath Puri, India",
+                price: 15800,
+                img: "jaganath temple.png",
+                desc: "Sea-kissed air mingles with sandalwood paste and the sweet warmth of mahaprasad drifting from the Jagannath Temple.",
+                notes: ["Sea Salt", "Mahaprasad Sweet", "Sandalwood"],
+                special: "Captures the divine Rath Yatra energy—the only fragrance containing actual Mahaprasad essence and Bay of Bengal sea minerals.",
+                roots: "One of India's sacred Char Dham pilgrimage sites. This scent embodies the devotion of millions who journey here annually, connecting you to bhakti tradition.",
+                calm: "Marine notes trigger parasympathetic response, lowering blood pressure. Sweet mahaprasad accord releases endorphins, creating feelings of joy and contentment.",
+                ritual: "Blessed by temple priests during Snana Yatra festival"
+            },
+            {
+                id: 5,
+                name: "Meenakshi Bloom",
+                sub: "Jasmine Accord",
+                location: "Madurai, India",
+                price: 16200,
+                img: "menakshi .png",
+                desc: "Night-blooming jasmine garlands, stone-cool corridors, and sacred ghee lamps echo through the Meenakshi Amman corridors.",
+                notes: ["Jasmine", "Ghee Lamp", "Polished Granite"],
+                special: "Features Madurai Malli—UNESCO-recognized jasmine, handpicked at 3 AM when fragrance peaks. Each bottle contains 10,000 jasmine petals' essence.",
+                roots: "Celebrates 2,500 years of Dravidian temple architecture and Tamil Sangam poetry. Connects you to the divine feminine energy of Goddess Meenakshi.",
+                calm: "Jasmine's benzyl acetate reduces heart rate and anxiety by 30%. The cooling granite note brings grounding stability, perfect for evening unwinding rituals.",
+                ritual: "Crafted during Chithirai festival under temple bells' blessings"
+            },
+            {
+                id: 6,
+                name: "Kedarnath Dawn",
+                sub: "Himalayan Resin",
+                location: "Kedarnath, India",
+                price: 16500,
+                img: "kedarnath .png",
+                desc: "Glacial breeze over stone shrines, pine resin on wool shawls, and a spark of camphor from the first aarti at dawn.",
+                notes: ["Pine Resin", "Camphor", "Glacial Air"],
+                special: "Contains wild Himalayan pine resin collected at 11,755 ft elevation and pure camphor from Lord Shiva's abode—nature's most powerful purifier.",
+                roots: "One of the 12 Jyotirlingas where Shiva resides. This fragrance carries the spiritual power of the Himalayas, India's sacred mountain gateway to divine consciousness.",
+                calm: "Camphor's terpenes clear mental fog and enhance respiratory function. Pine resin boosts immunity while inducing serene, grounded awareness—perfect for morning sadhana.",
+                ritual: "Mountain spring water added during full moon at 3,583m altitude"
+            }
+        ];
+
+        // --- LIKE / FAVORITES ---
+        const favorites = new Set();
+        const likeBtn = document.getElementById('like-btn');
+        const likeIcon = document.getElementById('like-icon');
+
+        function updateLikeButton(id) {
+            const liked = favorites.has(id);
+            likeBtn.setAttribute('aria-pressed', liked);
+            likeBtn.classList.toggle('border-gold-400', liked);
+            likeBtn.classList.toggle('text-gold-400', liked);
+            likeBtn.classList.toggle('bg-white/10', liked);
+            likeIcon.className = liked ? 'ph-fill ph-heart text-xl' : 'ph ph-heart text-xl';
+        }
+
+        function toggleLike() {
+            const productId = Number(likeBtn.dataset.productId);
+            if (!productId) return;
+            if (favorites.has(productId)) {
+                favorites.delete(productId);
+            } else {
+                favorites.add(productId);
+            }
+            updateLikeButton(productId);
+        }
+
+        // --- RENDER PRODUCTS ---
+        const grid = document.getElementById('product-grid');
+        products.forEach(p => {
+            const card = document.createElement('div');
+            card.className = "group cursor-pointer gs-reveal";
+            card.onclick = () => openModal(p.id);
+            card.innerHTML = `
+                <div class="relative h-[450px] rounded-[2.5rem] overflow-hidden mb-6 bg-dark-800 border border-white/5 transition-all duration-500 group-hover:border-gold-400/50 group-hover:shadow-2xl group-hover:shadow-gold-900/20">
+                    <img src="${p.img}" class="w-full h-full object-cover opacity-70 group-hover:scale-110 transition duration-[1.5s] grayscale group-hover:grayscale-0">
+                    <div class="absolute top-6 right-6 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+                        <span class="text-[10px] text-gold-400 uppercase tracking-widest font-bold">AR Ready</span>
+                    </div>
+                    <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black via-black/80 to-transparent">
+                        <span class="text-gold-500 text-[10px] font-bold tracking-[0.2em] uppercase block mb-2">${p.location}</span>
+                        <h3 class="text-2xl font-serif text-white group-hover:text-gold-200 transition">${p.name}</h3>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        // --- APP SIMULATOR ---
+        function changeScreen(mode) {
+            const screen = document.getElementById('phone-screen');
+            screen.style.opacity = '0';
+            
+            setTimeout(() => {
+                let content = '';
+                
+                if (mode === 'scan') {
+                    content = `
+                        <div class="flex-1 flex flex-col items-center justify-center text-center">
+                            <div class="relative w-full h-64 mb-6">
+                                <div class="scan-line absolute top-0 left-0"></div>
+                                <i class="ph ph-cube-transparent text-6xl text-gray-700"></i>
+                            </div>
+                            <h3 class="font-serif text-xl text-white mb-2">Scanning Bottle...</h3>
+                            <p class="text-xs text-gold-400 animate-pulse">Hold device near cap</p>
+                        </div>`;
+                } else if (mode === 'journal') {
+                    content = `
+                        <div class="flex-1 pt-6">
+                            <h3 class="font-serif text-xl text-white mb-6">Memory Log</h3>
+                            <div class="bg-[#1a1a1a] p-4 rounded-2xl mb-4 border-l-2 border-gold-400">
+                                <span class="text-[10px] text-gray-500 uppercase">Today • 6:00 PM</span>
+                                <p class="text-sm text-gray-300 italic mt-2">"The scent reminds me of the river at dusk..."</p>
+                            </div>
+                            <div class="w-full h-12 border border-dashed border-gray-700 rounded-xl flex items-center justify-center text-gray-500 text-xs uppercase">
+                                + Add Entry
+                            </div>
+                        </div>`;
+                } else if (mode === 'ar') {
+                    content = `
+                        <div class="flex-1 relative overflow-hidden rounded-2xl mb-4 bg-gray-900">
+                            <iframe 
+                                class="w-full h-full rounded-2xl" 
+                                src="https://www.youtube.com/embed/zfjk8D6p9gw?autoplay=1&mute=1&loop=1&playlist=zfjk8D6p9gw&controls=0&modestbranding=1" 
+                                frameborder="0" 
+                                allow="autoplay; encrypted-media" 
+                                allowfullscreen>
+                            </iframe>
+                            <div class="absolute bottom-4 left-4 right-4 bg-black/60 backdrop-blur p-3 rounded-xl pointer-events-none">
+                                <p class="text-xs text-white">Viewing: Varanasi Ghats</p>
+                                <p class="text-[10px] text-gold-400 mt-1">Live AR Experience</p>
+                            </div>
+                        </div>`;
+                }
+
+                content += `
+                    <div class="h-16 bg-[#111] rounded-full flex justify-around items-center text-gray-500 shrink-0">
+                        <i class="ph-fill ph-house ${mode === 'home' ? 'text-gold-400' : ''}"></i>
+                        <i class="ph ph-heart"></i>
+                        <i class="ph ph-user"></i>
+                    </div>
+                `;
+
+                screen.innerHTML = content;
+                screen.style.opacity = '1';
+            }, 400);
+        }
+
+        // --- CART LOGIC ---
+        let cartCount = 0;
+        function toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            drawer.classList.toggle('translate-x-full');
+        }
+
+        function addToCart() {
+            cartCount++;
+            document.getElementById('cart-badge').innerText = cartCount;
+            document.getElementById('cart-badge').style.opacity = '1';
+            
+            const cartItems = document.getElementById('cart-items');
+            if (cartCount === 1) cartItems.innerHTML = '';
+
+            const item = document.createElement('div');
+            item.className = "flex gap-4 items-center animate-pulse";
+            item.innerHTML = `
+                <div class="w-16 h-16 bg-gray-800 rounded-xl overflow-hidden">
+                   <img src="${document.getElementById('modal-img').src}" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <h4 class="text-white font-serif text-sm">${document.getElementById('modal-title').innerText}</h4>
+                    <p class="text-gold-400 text-xs">₹15,500</p>
+                </div>
+            `;
+            cartItems.appendChild(item);
+            
+            document.getElementById('cart-total').innerText = `₹${(cartCount * 15500).toLocaleString()}`;
+            closeModal();
+            toggleCart();
+        }
+
+        // --- MODAL LOGIC ---
+        const modal = document.getElementById('modal');
+        const content = document.getElementById('modal-content');
+
+        function openModal(id) {
+            const p = products.find(x => x.id === id);
+            
+            document.getElementById('modal-title').innerText = p.name;
+            document.getElementById('modal-loc').innerText = p.location;
+            document.getElementById('modal-desc').innerText = p.desc;
+            document.getElementById('modal-img').src = p.img;
+            
+            document.getElementById('modal-notes').innerHTML = p.notes.map(n => 
+                `<span class="px-3 py-1 border border-white/20 rounded-full">${n}</span>`
+            ).join('');
+
+            document.getElementById('modal-special').innerText = p.special;
+            document.getElementById('modal-roots').innerText = p.roots;
+            document.getElementById('modal-calm').innerText = p.calm;
+            document.getElementById('modal-ritual').innerText = p.ritual;
+
+            document.getElementById('modal-btn').onclick = addToCart;
+            likeBtn.dataset.productId = id;
+            updateLikeButton(id);
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+                
+                const modalDetails = content.querySelector('.overflow-y-auto');
+                if (modalDetails) modalDetails.scrollTop = 0;
+            }, 10);
+        }
+
+        function closeModal() {
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 500);
+        }
+
+        // Bind like button
+        likeBtn.addEventListener('click', toggleLike);
+
+        // --- CHECKOUT LOGIC ---
+        const checkoutModal = document.getElementById('checkout-modal');
+        const checkoutContent = document.getElementById('checkout-content');
+
+        function openCheckout() {
+            if (cartCount === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            const checkoutItems = document.getElementById('checkout-items');
+            const cartItemsDiv = document.getElementById('cart-items');
+            checkoutItems.innerHTML = cartItemsDiv.innerHTML;
+
+            const subtotal = cartCount * 15500;
+            const tax = Math.round(subtotal * 0.18);
+            const total = subtotal + tax;
+
+            document.getElementById('checkout-subtotal').innerText = `₹${subtotal.toLocaleString()}`;
+            document.getElementById('checkout-tax').innerText = `₹${tax.toLocaleString()}`;
+            document.getElementById('checkout-total').innerText = `₹${total.toLocaleString()}`;
+
+            checkoutModal.classList.remove('hidden');
+            checkoutModal.classList.add('flex');
+            
+            setTimeout(() => {
+                checkoutContent.classList.remove('scale-95', 'opacity-0');
+                checkoutContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+
+            toggleCart();
+        }
+
+        function closeCheckout() {
+            checkoutContent.classList.remove('scale-100', 'opacity-100');
+            checkoutContent.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                checkoutModal.classList.add('hidden');
+                checkoutModal.classList.remove('flex');
+            }, 500);
+        }
+
+        // Handle checkout form submission
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            alert('🎉 Order placed successfully! Your luxury fragrances will arrive within 5-7 business days. Thank you for choosing Maison Memoria!');
+            
+            cartCount = 0;
+            document.getElementById('cart-badge').style.opacity = '0';
+            document.getElementById('cart-items').innerHTML = '<p class="text-gray-600 text-center italic mt-10">Your sanctuary is empty.</p>';
+            document.getElementById('cart-total').innerText = '₹0';
+            
+            closeCheckout();
+        });
+
+        // --- GSAP ANIMATIONS ---
+        gsap.utils.toArray('.gs-reveal').forEach(elem => {
+            gsap.from(elem, {
+                scrollTrigger: { trigger: elem, start: "top 85%" },
+                y: 60, opacity: 0, duration: 1.2, ease: "power3.out"
+            });
+        });
+    </script>
+</body>
+</html>
