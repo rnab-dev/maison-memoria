@@ -199,9 +199,54 @@
                 </a>
             </div>
 
-            <div class="relative cursor-pointer group ml-4 sm:ml-8" onclick="toggleCart()">
-                <i class="ph ph-handbag text-xl sm:text-2xl text-gold-100 group-hover:text-gold-400 transition"></i>
-                <span id="cart-badge" class="absolute -top-1 -right-2 bg-gold-500 text-dark-950 text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center opacity-0 transition-opacity">0</span>
+            <div class="flex items-center gap-3 sm:gap-4 ml-4 sm:ml-8">
+                <div class="relative">
+                    <button onclick="toggleCurrencyMenu()" class="flex items-center gap-2 px-3 py-2 rounded-lg border border-white/10 hover:border-gold-400/50 transition text-gold-100 hover:text-gold-400 group">
+                        <span id="current-currency" class="text-xs font-bold">INR</span>
+                        <i class="ph ph-caret-down text-xs"></i>
+                    </button>
+                    <div id="currency-menu" class="absolute right-0 top-full mt-2 w-48 bg-dark-900 border border-white/10 rounded-xl shadow-2xl overflow-hidden hidden z-50">
+                        <div class="p-2 max-h-80 overflow-y-auto">
+                            <button onclick="changeCurrency('INR', '₹', 1)" class="w-full text-left px-4 py-3 hover:bg-gold-400/10 transition text-gray-300 hover:text-gold-100 rounded-lg flex justify-between items-center">
+                                <span class="text-sm">INR - Rupee</span>
+                                <span class="text-xs text-gold-400">₹</span>
+                            </button>
+                            <button onclick="changeCurrency('USD', '$', 0.012)" class="w-full text-left px-4 py-3 hover:bg-gold-400/10 transition text-gray-300 hover:text-gold-100 rounded-lg flex justify-between items-center">
+                                <span class="text-sm">USD - Dollar</span>
+                                <span class="text-xs text-gold-400">$</span>
+                            </button>
+                            <button onclick="changeCurrency('EUR', '€', 0.011)" class="w-full text-left px-4 py-3 hover:bg-gold-400/10 transition text-gray-300 hover:text-gold-100 rounded-lg flex justify-between items-center">
+                                <span class="text-sm">EUR - Euro</span>
+                                <span class="text-xs text-gold-400">€</span>
+                            </button>
+                            <button onclick="changeCurrency('GBP', '£', 0.0095)" class="w-full text-left px-4 py-3 hover:bg-gold-400/10 transition text-gray-300 hover:text-gold-100 rounded-lg flex justify-between items-center">
+                                <span class="text-sm">GBP - Pound</span>
+                                <span class="text-xs text-gold-400">£</span>
+                            </button>
+                            <button onclick="changeCurrency('JPY', '¥', 1.75)" class="w-full text-left px-4 py-3 hover:bg-gold-400/10 transition text-gray-300 hover:text-gold-100 rounded-lg flex justify-between items-center">
+                                <span class="text-sm">JPY - Yen</span>
+                                <span class="text-xs text-gold-400">¥</span>
+                            </button>
+                            <button onclick="changeCurrency('AED', 'د.إ', 0.044)" class="w-full text-left px-4 py-3 hover:bg-gold-400/10 transition text-gray-300 hover:text-gold-100 rounded-lg flex justify-between items-center">
+                                <span class="text-sm">AED - Dirham</span>
+                                <span class="text-xs text-gold-400">د.إ</span>
+                            </button>
+                            <button onclick="changeCurrency('CHF', '₣', 0.011)" class="w-full text-left px-4 py-3 hover:bg-gold-400/10 transition text-gray-300 hover:text-gold-100 rounded-lg flex justify-between items-center">
+                                <span class="text-sm">CHF - Franc</span>
+                                <span class="text-xs text-gold-400">₣</span>
+                            </button>
+                            <button onclick="changeCurrency('SGD', 'S$', 0.016)" class="w-full text-left px-4 py-3 hover:bg-gold-400/10 transition text-gray-300 hover:text-gold-100 rounded-lg flex justify-between items-center">
+                                <span class="text-sm">SGD - S Dollar</span>
+                                <span class="text-xs text-gold-400">S$</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative cursor-pointer group" onclick="toggleCart()">
+                    <i class="ph ph-handbag text-xl sm:text-2xl text-gold-100 group-hover:text-gold-400 transition"></i>
+                    <span id="cart-badge" class="absolute -top-1 -right-2 bg-gold-500 text-dark-950 text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center opacity-0 transition-opacity">0</span>
+                </div>
             </div>
         </div>
     </nav>
@@ -237,7 +282,13 @@
             </div>
             <div class="p-6 sm:p-10 md:p-16 flex flex-col overflow-y-auto max-h-[90vh]">
                 <span id="modal-loc" class="text-gold-500 text-xs font-bold tracking-[0.2em] uppercase mb-3">Location</span>
-                <h2 id="modal-title" class="text-3xl sm:text-5xl font-serif text-white mb-6 leading-none">Title</h2>
+                <div class="flex items-start justify-between gap-4 mb-6">
+                    <h2 id="modal-title" class="text-3xl sm:text-5xl font-serif text-white leading-none">Title</h2>
+                    <div class="text-right">
+                        <div id="modal-price" data-price="0" class="text-2xl sm:text-3xl font-bold text-gold-400">₹0</div>
+                        <div class="text-xs text-gray-500 mt-1">50ml Eau de Parfum</div>
+                    </div>
+                </div>
                 <div class="flex gap-4 mb-8 text-gray-400 text-sm italic" id="modal-notes">
                 </div>
                 <p id="modal-desc" class="text-gray-300 font-body leading-relaxed mb-8 border-l-2 border-gold-500/30 pl-4 sm:pl-6 text-sm sm:text-base">
@@ -795,35 +846,119 @@
         }
 
         let cartCount = 0;
+        let currentCurrency = 'INR';
+        let currencySymbol = '₹';
+        let conversionRate = 1;
+        
+        function toggleCurrencyMenu() {
+            const menu = document.getElementById('currency-menu');
+            menu.classList.toggle('hidden');
+        }
+        
+        function changeCurrency(code, symbol, rate) {
+            currentCurrency = code;
+            currencySymbol = symbol;
+            conversionRate = rate;
+            
+            document.getElementById('current-currency').textContent = code;
+            document.getElementById('currency-menu').classList.add('hidden');
+            
+            updateAllPrices();
+        }
+        
+        function formatPrice(priceINR) {
+            const convertedPrice = Math.round(priceINR * conversionRate);
+            if (currentCurrency === 'JPY') {
+                return `${currencySymbol}${convertedPrice.toLocaleString()}`;
+            }
+            return `${currencySymbol}${convertedPrice.toLocaleString()}`;
+        }
+        
+        function updateAllPrices() {
+            document.querySelectorAll('[data-price]').forEach(el => {
+                const basePrice = parseInt(el.getAttribute('data-price'));
+                el.textContent = formatPrice(basePrice);
+            });
+            
+            const cartTotal = document.getElementById('cart-total');
+            if (cartTotal.getAttribute('data-price')) {
+                const basePrice = parseInt(cartTotal.getAttribute('data-price'));
+                cartTotal.textContent = formatPrice(basePrice);
+            }
+        }
+        
+        document.addEventListener('click', function(e) {
+            const currencyMenu = document.getElementById('currency-menu');
+            const currencyButton = e.target.closest('button[onclick="toggleCurrencyMenu()"]');
+            if (!currencyButton && !currencyMenu.contains(e.target)) {
+                currencyMenu.classList.add('hidden');
+            }
+        });
+        
+        let cart = [];
+        
         function toggleCart() {
             const drawer = document.getElementById('cart-drawer');
             drawer.classList.toggle('translate-x-full');
         }
 
-        function addToCart() {
-            cartCount++;
+        function addToCart(product) {
+            cart.push(product);
+            cartCount = cart.length;
+            
             document.getElementById('cart-badge').innerText = cartCount;
             document.getElementById('cart-badge').style.opacity = '1';
             
-            const cartItems = document.getElementById('cart-items');
-            if (cartCount === 1) cartItems.innerHTML = '';
-
-            const item = document.createElement('div');
-            item.className = "flex gap-4 items-center animate-pulse";
-            item.innerHTML = `
-                <div class="w-16 h-16 bg-gray-800 rounded-xl overflow-hidden">
-                   <img src="${document.getElementById('modal-img').src}" class="w-full h-full object-cover">
-                </div>
-                <div>
-                    <h4 class="text-white font-serif text-sm">${document.getElementById('modal-title').innerText}</h4>
-                    <p class="text-gold-400 text-xs">₹15,500</p>
-                </div>
-            `;
-            cartItems.appendChild(item);
-            
-            document.getElementById('cart-total').innerText = `₹${(cartCount * 15500).toLocaleString()}`;
+            updateCartDisplay();
             closeModal();
             toggleCart();
+        }
+        
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cart-items');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="text-gray-600 text-center italic mt-10">Your sanctuary is empty.</p>';
+                document.getElementById('cart-total').textContent = formatPrice(0);
+                document.getElementById('cart-total').setAttribute('data-price', 0);
+                return;
+            }
+            
+            cartItems.innerHTML = '';
+            let total = 0;
+            
+            cart.forEach((product, index) => {
+                total += product.price;
+                const item = document.createElement('div');
+                item.className = "flex gap-4 items-center border-b border-white/5 pb-4";
+                item.innerHTML = `
+                    <div class="w-16 h-16 bg-gray-800 rounded-xl overflow-hidden">
+                       <img src="${product.img}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-white font-serif text-sm">${product.name}</h4>
+                        <p class="text-gold-400 text-xs" data-price="${product.price}">${formatPrice(product.price)}</p>
+                    </div>
+                    <button onclick="removeFromCart(${index})" class="text-gray-500 hover:text-red-400 transition">
+                        <i class="ph ph-x text-lg"></i>
+                    </button>
+                `;
+                cartItems.appendChild(item);
+            });
+            
+            const cartTotal = document.getElementById('cart-total');
+            cartTotal.setAttribute('data-price', total);
+            cartTotal.textContent = formatPrice(total);
+        }
+        
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            cartCount = cart.length;
+            document.getElementById('cart-badge').innerText = cartCount;
+            if (cartCount === 0) {
+                document.getElementById('cart-badge').style.opacity = '0';
+            }
+            updateCartDisplay();
         }
 
         const modal = document.getElementById('modal');
@@ -837,6 +972,10 @@
             document.getElementById('modal-desc').innerText = p.desc;
             document.getElementById('modal-img').src = p.img;
             
+            const priceEl = document.getElementById('modal-price');
+            priceEl.setAttribute('data-price', p.price);
+            priceEl.textContent = formatPrice(p.price);
+            
             document.getElementById('modal-notes').innerHTML = p.notes.map(n => 
                 `<span class="px-3 py-1 border border-white/20 rounded-full">${n}</span>`
             ).join('');
@@ -846,7 +985,7 @@
             document.getElementById('modal-calm').innerText = p.calm;
             document.getElementById('modal-ritual').innerText = p.ritual;
 
-            document.getElementById('modal-btn').onclick = addToCart;
+            document.getElementById('modal-btn').onclick = () => addToCart(p);
             likeBtn.dataset.productId = id;
             updateLikeButton(id);
 
@@ -877,23 +1016,48 @@
         const checkoutContent = document.getElementById('checkout-content');
 
         function openCheckout() {
-            if (cartCount === 0) {
+            if (cart.length === 0) {
                 alert('Your cart is empty!');
                 return;
             }
 
             const checkoutItems = document.getElementById('checkout-items');
-            const cartItemsDiv = document.getElementById('cart-items');
-            checkoutItems.innerHTML = cartItemsDiv.innerHTML;
+            checkoutItems.innerHTML = '';
+            
+            let subtotal = 0;
+            cart.forEach(product => {
+                subtotal += product.price;
+                const item = document.createElement('div');
+                item.className = "flex gap-4 items-center border-b border-white/5 pb-4";
+                item.innerHTML = `
+                    <div class="w-16 h-16 bg-gray-800 rounded-xl overflow-hidden">
+                       <img src="${product.img}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-white font-serif text-sm">${product.name}</h4>
+                        <p class="text-gold-400 text-xs" data-price="${product.price}">${formatPrice(product.price)}</p>
+                    </div>
+                `;
+                checkoutItems.appendChild(item);
+            });
 
-            const subtotal = cartCount * 15500;
             const tax = Math.round(subtotal * 0.18);
             const total = subtotal + tax;
 
-            document.getElementById('checkout-subtotal').innerText = `₹${subtotal.toLocaleString()}`;
-            document.getElementById('checkout-tax').innerText = `₹${tax.toLocaleString()}`;
-            document.getElementById('checkout-total').innerText = `₹${total.toLocaleString()}`;
+            const subtotalEl = document.getElementById('checkout-subtotal');
+            subtotalEl.setAttribute('data-price', subtotal);
+            subtotalEl.textContent = formatPrice(subtotal);
+            
+            const taxEl = document.getElementById('checkout-tax');
+            taxEl.setAttribute('data-price', tax);
+            taxEl.textContent = formatPrice(tax);
+            
+            const totalEl = document.getElementById('checkout-total');
+            totalEl.setAttribute('data-price', total);
+            totalEl.textContent = formatPrice(total);
 
+            toggleCart();
+            toggleCart();
             checkoutModal.classList.remove('hidden');
             checkoutModal.classList.add('flex');
             
@@ -901,8 +1065,6 @@
                 checkoutContent.classList.remove('scale-95', 'opacity-0');
                 checkoutContent.classList.add('scale-100', 'opacity-100');
             }, 10);
-
-            toggleCart();
         }
 
         function closeCheckout() {
@@ -919,10 +1081,12 @@
             
             alert('🎉 Order placed successfully! Your luxury fragrances will arrive within 5-7 business days. Thank you for choosing Maison Memoria!');
             
+            cart = [];
             cartCount = 0;
             document.getElementById('cart-badge').style.opacity = '0';
             document.getElementById('cart-items').innerHTML = '<p class="text-gray-600 text-center italic mt-10">Your sanctuary is empty.</p>';
-            document.getElementById('cart-total').innerText = '₹0';
+            document.getElementById('cart-total').textContent = formatPrice(0);
+            document.getElementById('cart-total').setAttribute('data-price', 0);
             
             closeCheckout();
         });
