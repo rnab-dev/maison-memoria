@@ -95,6 +95,15 @@
         ::-webkit-scrollbar-track { background: #050505; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+        
+        /* Hide scrollbar for artist cards */
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
 
         .btn-gold {
             position: relative;
@@ -329,13 +338,18 @@
                     </div>
                 </div>
 
-                <div class="bg-dark-800 rounded-2xl p-6 mb-8 border border-white/5 flex items-center gap-4">
-                    <div class="w-10 h-10 rounded-full bg-gold-400/10 flex items-center justify-center text-gold-400">
-                        <i class="ph ph-cube-transparent text-xl"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-white text-sm font-bold">AR Enabled</h4>
-                        <p class="text-xs text-gray-500">Scan bottle to unlock memory portal.</p>
+                <div class="bg-dark-800 rounded-2xl p-6 mb-8 border border-white/5 hover:border-gold-400/50 transition cursor-pointer" id="modal-ar-btn">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-gold-400/10 flex items-center justify-center text-gold-400">
+                                <i class="ph ph-cube-transparent text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white text-sm font-bold">AR Experience</h4>
+                                <p class="text-xs text-gray-500">View this sacred place in AR</p>
+                            </div>
+                        </div>
+                        <i class="ph ph-arrow-right text-gold-400 text-xl"></i>
                     </div>
                 </div>
 
@@ -351,111 +365,111 @@
         </div>
     </div>
 
-    <div id="checkout-modal" class="fixed inset-0 z-[110] hidden items-center justify-center p-4">
+    <div id="checkout-modal" class="fixed inset-0 z-[110] hidden items-center justify-center p-2 sm:p-4">
         <div class="absolute inset-0 bg-black/95 backdrop-blur-xl" onclick="closeCheckout()"></div>
-        <div class="relative w-full max-w-6xl bg-dark-900 border border-white/10 rounded-[3rem] shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-500" id="checkout-content">
-            <div class="grid md:grid-cols-5">
-                <div class="md:col-span-2 bg-dark-950 p-8 md:p-12 border-r border-white/5">
-                    <div class="flex items-center justify-between mb-8">
-                        <h2 class="text-2xl font-serif text-gold-100">Order Summary</h2>
+        <div class="relative w-full max-w-6xl bg-dark-900 border border-white/10 rounded-2xl sm:rounded-[3rem] shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-500 max-h-[95vh] flex flex-col" id="checkout-content">
+            <div class="grid md:grid-cols-5 flex-1 overflow-hidden">
+                <div class="md:col-span-2 bg-dark-950 p-4 sm:p-8 md:p-12 border-r border-white/5 flex flex-col">
+                    <div class="flex items-center justify-between mb-6 sm:mb-8">
+                        <h2 class="text-xl sm:text-2xl font-serif text-gold-100">Order Summary</h2>
                         <button onclick="closeCheckout()" class="text-gray-400 hover:text-white transition">
                             <i class="ph ph-x text-2xl"></i>
                         </button>
                     </div>
                     
-                    <div id="checkout-items" class="space-y-6 mb-8 max-h-[400px] overflow-y-auto">
+                    <div id="checkout-items" class="space-y-4 sm:space-y-6 mb-6 sm:mb-8 max-h-[300px] sm:max-h-[400px] overflow-y-auto flex-1">
                     </div>
 
-                    <div class="border-t border-white/10 pt-6 space-y-4">
-                        <div class="flex justify-between text-gray-400 text-sm">
+                    <div class="border-t border-white/10 pt-4 sm:pt-6 space-y-3 sm:space-y-4">
+                        <div class="flex justify-between text-gray-400 text-xs sm:text-sm">
                             <span>Subtotal</span>
                             <span id="checkout-subtotal">₹0</span>
                         </div>
-                        <div class="flex justify-between text-gray-400 text-sm">
+                        <div class="flex justify-between text-gray-400 text-xs sm:text-sm">
                             <span>Shipping</span>
                             <span class="text-gold-400">Free</span>
                         </div>
-                        <div class="flex justify-between text-gray-400 text-sm">
+                        <div class="flex justify-between text-gray-400 text-xs sm:text-sm">
                             <span>Tax (18% GST)</span>
                             <span id="checkout-tax">₹0</span>
                         </div>
-                        <div class="border-t border-white/10 pt-4 flex justify-between font-serif text-xl text-gold-100">
+                        <div class="border-t border-white/10 pt-3 sm:pt-4 flex justify-between font-serif text-lg sm:text-xl text-gold-100">
                             <span>Total</span>
                             <span id="checkout-total">₹0</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="md:col-span-3 p-8 md:p-12 overflow-y-auto max-h-[90vh]">
-                    <h2 class="text-3xl font-serif text-white mb-2">Complete Your Order</h2>
-                    <p class="text-gray-500 text-sm mb-10">Your journey to luxury begins here</p>
+                <div class="md:col-span-3 p-4 sm:p-8 md:p-12 overflow-y-auto max-h-[60vh] md:max-h-[90vh]">
+                    <h2 class="text-2xl sm:text-3xl font-serif text-white mb-2">Complete Your Order</h2>
+                    <p class="text-gray-500 text-xs sm:text-sm mb-6 sm:mb-10">Your journey to luxury begins here</p>
 
-                    <form id="checkout-form" class="space-y-8">
+                    <form id="checkout-form" class="space-y-6 sm:space-y-8">
                         <div>
-                            <h3 class="text-lg font-serif text-gold-100 mb-4 flex items-center gap-2">
+                            <h3 class="text-base sm:text-lg font-serif text-gold-100 mb-3 sm:mb-4 flex items-center gap-2">
                                 <i class="ph ph-user text-gold-400"></i>
                                 Contact Information
                             </h3>
-                            <div class="grid md:grid-cols-2 gap-4">
+                            <div class="grid md:grid-cols-2 gap-3 sm:gap-4">
                                 <div>
                                     <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2">Full Name</label>
-                                    <input type="text" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
+                                    <input type="text" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-3 sm:px-4 py-2 sm:py-3 text-white text-sm placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
                                 </div>
                                 <div>
                                     <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2">Email Address</label>
-                                    <input type="email" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
+                                    <input type="email" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-3 sm:px-4 py-2 sm:py-3 text-white text-sm placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
                                 </div>
                                 <div class="md:col-span-2">
                                     <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2">Phone Number</label>
-                                    <input type="tel" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
+                                    <input type="tel" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-3 sm:px-4 py-2 sm:py-3 text-white text-sm placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
                                 </div>
                             </div>
                         </div>
 
                         <div>
-                            <h3 class="text-lg font-serif text-gold-100 mb-4 flex items-center gap-2">
+                            <h3 class="text-base sm:text-lg font-serif text-gold-100 mb-3 sm:mb-4 flex items-center gap-2">
                                 <i class="ph ph-map-pin text-gold-400"></i>
                                 Shipping Address
                             </h3>
-                            <div class="space-y-4">
+                            <div class="space-y-3 sm:space-y-4">
                                 <div>
                                     <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2">Street Address</label>
-                                    <input type="text" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
+                                    <input type="text" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-3 sm:px-4 py-2 sm:py-3 text-white text-sm placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
                                 </div>
-                                <div class="grid md:grid-cols-3 gap-4">
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
                                     <div>
                                         <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2">City</label>
-                                        <input type="text" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
+                                        <input type="text" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-3 sm:px-4 py-2 sm:py-3 text-white text-sm placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
                                     </div>
                                     <div>
                                         <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2">State</label>
-                                        <input type="text" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
+                                        <input type="text" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-3 sm:px-4 py-2 sm:py-3 text-white text-sm placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
                                     </div>
-                                    <div>
+                                    <div class="col-span-2 md:col-span-1">
                                         <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2">PIN Code</label>
-                                        <input type="text" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
+                                        <input type="text" required class="w-full bg-dark-800 border border-white/10 rounded-xl px-3 sm:px-4 py-2 sm:py-3 text-white text-sm placeholder-gray-600 focus:border-gold-400 focus:outline-none transition">
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div>
-                            <h3 class="text-lg font-serif text-gold-100 mb-4 flex items-center gap-2">
+                            <h3 class="text-base sm:text-lg font-serif text-gold-100 mb-3 sm:mb-4 flex items-center gap-2">
                                 <i class="ph ph-credit-card text-gold-400"></i>
                                 Payment Method
                             </h3>
-                            <div class="grid grid-cols-3 gap-4 mb-6">
+                            <div class="grid grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
                                 <label class="relative cursor-pointer">
                                     <input type="radio" name="payment" value="card" checked class="peer sr-only">
-                                    <div class="p-4 border border-white/10 rounded-xl bg-dark-800 peer-checked:border-gold-400 peer-checked:bg-gold-900/20 transition flex flex-col items-center gap-2 text-center">
-                                        <i class="ph-fill ph-credit-card text-2xl text-gray-400 peer-checked:text-gold-400"></i>
+                                    <div class="p-3 sm:p-4 border border-white/10 rounded-xl bg-dark-800 peer-checked:border-gold-400 peer-checked:bg-gold-900/20 transition flex flex-col items-center gap-2 text-center">
+                                        <i class="ph-fill ph-credit-card text-xl sm:text-2xl text-gray-400 peer-checked:text-gold-400"></i>
                                         <span class="text-xs text-gray-400">Card</span>
                                     </div>
                                 </label>
                                 <label class="relative cursor-pointer">
                                     <input type="radio" name="payment" value="upi" class="peer sr-only">
-                                    <div class="p-4 border border-white/10 rounded-xl bg-dark-800 peer-checked:border-gold-400 peer-checked:bg-gold-900/20 transition flex flex-col items-center gap-2 text-center">
-                                        <i class="ph-fill ph-device-mobile text-2xl text-gray-400 peer-checked:text-gold-400"></i>
+                                    <div class="p-3 sm:p-4 border border-white/10 rounded-xl bg-dark-800 peer-checked:border-gold-400 peer-checked:bg-gold-900/20 transition flex flex-col items-center gap-2 text-center">
+                                        <i class="ph-fill ph-device-mobile text-xl sm:text-2xl text-gray-400 peer-checked:text-gold-400"></i>
                                         <span class="text-xs text-gray-400">UPI</span>
                                     </div>
                                 </label>
@@ -636,6 +650,495 @@
         </div>
     </section>
 
+    <!-- ARTIST COLLABORATION SECTION -->
+    <section id="artists" class="relative bg-[#0b0b0b] py-32 overflow-hidden">
+        <!-- Background texture -->
+        <div class="absolute inset-0 opacity-5 bg-noise"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-gold-900/10 to-transparent blur-3xl"></div>
+
+        <div class="container mx-auto px-4 sm:px-6 relative z-10">
+            
+            <!-- SECTION HEADER -->
+            <div class="text-center mb-24 gs-reveal">
+                <div class="h-[1px] w-32 bg-gradient-to-r from-transparent via-gold-400 to-transparent mx-auto mb-12"></div>
+                <h2 class="text-4xl sm:text-5xl md:text-6xl font-serif text-white mb-6 tracking-wide">
+                    Crafted in Metal.<br>
+                    <span class="font-italic italic text-gold-300">Shaped by Culture.</span>
+                </h2>
+                <p class="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto font-body leading-relaxed">
+                    Every cap is a sculptural collaboration — between heritage, precision, and contemporary luxury.
+                </p>
+            </div>
+
+            <!-- STORY BLOCK -->
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 mb-32 items-center gs-reveal">
+                <div>
+                    <h3 class="text-3xl sm:text-4xl font-serif text-white mb-6">More than a cap.<br>A sculptural signature.</h3>
+                    <p class="text-gray-300 leading-relaxed mb-6 font-body">
+                        Every perfume bottle is completed by a cap designed in collaboration with skilled metal artists and architectural sculptors.
+                    </p>
+                    <p class="text-gray-300 leading-relaxed mb-6 font-body">
+                        Working with brass, steel, and gold-plated alloys, each artist translates the form, rhythm, and symbolism of a place into a lasting sculptural element.
+                    </p>
+                    <p class="text-gold-300 font-serif italic text-lg">
+                        This is craftsmanship designed to endure — long after the fragrance fades.
+                    </p>
+                </div>
+                <div class="relative h-[400px] sm:h-[500px] rounded-3xl overflow-hidden group">
+                    <img src="https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=800" 
+                         alt="Metal artist crafting bottle cap" 
+                         class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-[2s]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 text-white">
+                        <p class="text-xs uppercase tracking-widest text-gold-400 mb-2">Precision Craftsmanship</p>
+                        <p class="text-sm italic">Where architecture meets metal artistry</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ARTIST SPOTLIGHT CARDS -->
+            <div class="mb-32">
+                <h3 class="text-2xl sm:text-3xl font-serif text-white mb-12 text-center gs-reveal">Meet the Metal Artists</h3>
+                <div class="overflow-x-auto pb-8 hide-scrollbar">
+                    <div class="flex gap-6 min-w-max px-4 sm:px-0">
+                        
+                        <!-- Artist Card 1 -->
+                        <div class="artist-card w-80 bg-black/50 border border-white/10 rounded-2xl p-6 hover:border-gold-400/50 transition-all duration-500 group gs-reveal">
+                            <div class="w-full h-64 rounded-xl overflow-hidden mb-6 bg-gray-900">
+                                <img src="https://images.unsplash.com/photo-1595152452543-e5fc28ebc2b8?w=400" 
+                                     alt="R. Murugan" 
+                                     class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700">
+                            </div>
+                            <div class="border-t border-gold-400/20 pt-4">
+                                <h4 class="text-xl font-serif text-white mb-2">R. Murugan</h4>
+                                <p class="text-gold-400 text-sm mb-2 uppercase tracking-wider">Architectural Metal Sculptor</p>
+                                <p class="text-gray-500 text-xs mb-4">Madurai, Tamil Nadu</p>
+                                <p class="text-gray-400 text-sm italic leading-relaxed">
+                                    "Specializes in brass and gold-plated detailing inspired by temple gopurams."
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Artist Card 2 -->
+                        <div class="artist-card w-80 bg-black/50 border border-white/10 rounded-2xl p-6 hover:border-gold-400/50 transition-all duration-500 group gs-reveal">
+                            <div class="w-full h-64 rounded-xl overflow-hidden mb-6 bg-gray-900">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400" 
+                                     alt="Harpreet Singh" 
+                                     class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700">
+                            </div>
+                            <div class="border-t border-gold-400/20 pt-4">
+                                <h4 class="text-xl font-serif text-white mb-2">Harpreet Singh</h4>
+                                <p class="text-gold-400 text-sm mb-2 uppercase tracking-wider">Metal Engraving & Finish Specialist</p>
+                                <p class="text-gray-500 text-xs mb-4">Amritsar, Punjab</p>
+                                <p class="text-gray-400 text-sm italic leading-relaxed">
+                                    "Known for precision engraving and mirror-finish metalwork inspired by light and reflection."
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Artist Card 3 -->
+                        <div class="artist-card w-80 bg-black/50 border border-white/10 rounded-2xl p-6 hover:border-gold-400/50 transition-all duration-500 group gs-reveal">
+                            <div class="w-full h-64 rounded-xl overflow-hidden mb-6 bg-gray-900">
+                                <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400" 
+                                     alt="Ankit Verma" 
+                                     class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700">
+                            </div>
+                            <div class="border-t border-gold-400/20 pt-4">
+                                <h4 class="text-xl font-serif text-white mb-2">Ankit Verma</h4>
+                                <p class="text-gold-400 text-sm mb-2 uppercase tracking-wider">Contemporary Metal Designer</p>
+                                <p class="text-gray-500 text-xs mb-4">Delhi, India</p>
+                                <p class="text-gray-400 text-sm italic leading-relaxed">
+                                    "Focuses on minimal sculptural forms with modern luxury finishes."
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Artist Card 4 -->
+                        <div class="artist-card w-80 bg-black/50 border border-white/10 rounded-2xl p-6 hover:border-gold-400/50 transition-all duration-500 group gs-reveal">
+                            <div class="w-full h-64 rounded-xl overflow-hidden mb-6 bg-gray-900">
+                                <img src="https://images.unsplash.com/photo-1566753323558-f4e0952af115?w=400" 
+                                     alt="Priya Nair" 
+                                     class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700">
+                            </div>
+                            <div class="border-t border-gold-400/20 pt-4">
+                                <h4 class="text-xl font-serif text-white mb-2">Priya Nair</h4>
+                                <p class="text-gold-400 text-sm mb-2 uppercase tracking-wider">Bronze & Patina Specialist</p>
+                                <p class="text-gray-500 text-xs mb-4">Kerala, India</p>
+                                <p class="text-gray-400 text-sm italic leading-relaxed">
+                                    "Masters traditional bronze casting with contemporary oxidation techniques."
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- CAP DESIGN SHOWCASE -->
+            <div class="mb-32 text-center gs-reveal">
+                <h3 class="text-2xl sm:text-3xl font-serif text-white mb-6">Sculptural Permanence</h3>
+                <p class="text-gray-400 max-w-2xl mx-auto mb-12 font-body leading-relaxed">
+                    Each cap is created in limited numbers. Slight variations are intentional — a mark of the artist's design contribution. 
+                    <span class="text-gold-300 italic">No two are exactly alike.</span>
+                </p>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6">
+                    <div class="cap-showcase aspect-square bg-gradient-to-br from-gray-900 to-black rounded-2xl border border-white/10 hover:border-gold-400/50 transition-all duration-500 group overflow-hidden relative">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i class="ph-fill ph-flower-lotus text-6xl text-gold-400/20 group-hover:text-gold-400/60 transition duration-500"></i>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition">
+                            <p class="text-xs text-gold-400 font-bold">Brass Cap • Varanasi</p>
+                        </div>
+                    </div>
+                    <div class="cap-showcase aspect-square bg-gradient-to-br from-gray-900 to-black rounded-2xl border border-white/10 hover:border-gold-400/50 transition-all duration-500 group overflow-hidden relative">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i class="ph-fill ph-star text-6xl text-gold-400/20 group-hover:text-gold-400/60 transition duration-500"></i>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition">
+                            <p class="text-xs text-gold-400 font-bold">Gold-Plated • Amritsar</p>
+                        </div>
+                    </div>
+                    <div class="cap-showcase aspect-square bg-gradient-to-br from-gray-900 to-black rounded-2xl border border-white/10 hover:border-gold-400/50 transition-all duration-500 group overflow-hidden relative">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i class="ph-fill ph-tree text-6xl text-gold-400/20 group-hover:text-gold-400/60 transition duration-500"></i>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition">
+                            <p class="text-xs text-gold-400 font-bold">Stainless Steel • Bodh Gaya</p>
+                        </div>
+                    </div>
+                    <div class="cap-showcase aspect-square bg-gradient-to-br from-gray-900 to-black rounded-2xl border border-white/10 hover:border-gold-400/50 transition-all duration-500 group overflow-hidden relative">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i class="ph-fill ph-sun-horizon text-6xl text-gold-400/20 group-hover:text-gold-400/60 transition duration-500"></i>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition">
+                            <p class="text-xs text-gold-400 font-bold">Bronze • Puri</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUSTAINABILITY STATEMENT -->
+            <div class="max-w-4xl mx-auto border border-gold-400/30 rounded-3xl p-8 sm:p-12 mb-16 gs-reveal">
+                <div class="flex items-start gap-4 mb-6">
+                    <i class="ph-fill ph-recycle text-3xl text-gold-400"></i>
+                    <h3 class="text-2xl sm:text-3xl font-serif text-white">Sustainable by Design</h3>
+                </div>
+                <p class="text-gray-300 leading-relaxed mb-6 font-body">
+                    Metal caps are durable, refill-friendly, and designed to last a lifetime. Each cap can be reused, refinished, or passed on — making the bottle a permanent object, not disposable packaging.
+                </p>
+                <p class="text-gold-300 italic font-serif text-lg">
+                    By working directly with metal artists, we support regional design collaboration and the preservation of architectural craftsmanship.
+                </p>
+            </div>
+
+            <!-- POWER LINE -->
+            <div class="text-center gs-reveal">
+                <p class="text-2xl sm:text-3xl font-serif italic text-gold-200 mb-12">
+                    "We chose metal because luxury should last — just like memory."
+                </p>
+                <button class="border-2 border-gold-400/50 hover:bg-gold-400 hover:text-black text-gold-400 px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition duration-300">
+                    Explore the Collaboration
+                </button>
+            </div>
+
+            <!-- FOOTER NOTE -->
+            <div class="text-center mt-16 pt-8 border-t border-white/5">
+                <p class="text-gray-600 text-xs leading-relaxed max-w-2xl mx-auto">
+                    Each artist is credited and compensated for their design contribution.<br>
+                    Craftsmanship is collaboration, not decoration.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- THE ATELIER SECTION -->
+    <section id="atelier" class="relative bg-black py-32 overflow-hidden">
+        <!-- Background gradient -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-gold-900/5 to-transparent blur-3xl"></div>
+        
+        <div class="container mx-auto px-4 sm:px-6 relative z-10">
+            
+            <!-- Section Header -->
+            <div class="text-center mb-20 gs-reveal">
+                <div class="h-[1px] w-24 bg-gradient-to-r from-transparent via-gold-400 to-transparent mx-auto mb-10"></div>
+                <h2 class="text-4xl sm:text-5xl md:text-6xl font-serif text-white mb-8 tracking-wide">
+                    The Atelier
+                </h2>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center max-w-6xl mx-auto">
+                
+                <!-- Image -->
+                <div class="relative h-[500px] rounded-2xl overflow-hidden group order-2 lg:order-1 gs-reveal">
+                    <img src="https://images.unsplash.com/photo-1615634260167-c8cdede054de?w=800" 
+                         alt="Perfumer's workspace with tools and materials" 
+                         class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-[2s]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
+                </div>
+
+                <!-- Text Content -->
+                <div class="order-1 lg:order-2 gs-reveal">
+                    <p class="text-gray-300 text-lg sm:text-xl leading-relaxed mb-8 font-body">
+                        Each fragrance begins in silence — shaped by time, material, and restraint.
+                    </p>
+                    <p class="text-gray-400 leading-relaxed mb-8 font-body">
+                        Our compositions are created by master perfumers who translate atmosphere into scent, balancing tradition with modern refinement.
+                    </p>
+                    <div class="space-y-4 text-gold-300 font-serif italic text-base border-l-2 border-gold-400/30 pl-6">
+                        <p>No excess.</p>
+                        <p>No noise.</p>
+                        <p>Only precision, patience, and intent.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PROVENANCE SECTION -->
+    <section id="provenance" class="relative bg-[#0a0a0a] py-32 overflow-hidden">
+        <!-- Subtle background -->
+        <div class="absolute inset-0 opacity-5 bg-noise"></div>
+        
+        <div class="container mx-auto px-4 sm:px-6 relative z-10">
+            
+            <!-- Section Header -->
+            <div class="text-center mb-20 gs-reveal">
+                <div class="h-[1px] w-24 bg-gradient-to-r from-transparent via-gold-400 to-transparent mx-auto mb-10"></div>
+                <h2 class="text-4xl sm:text-5xl md:text-6xl font-serif text-white mb-8 tracking-wide">
+                    Provenance
+                </h2>
+            </div>
+
+            <!-- Content -->
+            <div class="max-w-4xl mx-auto text-center gs-reveal">
+                <p class="text-gray-300 text-xl sm:text-2xl leading-relaxed mb-12 font-body">
+                    Every bottle carries a unique mark — discreet, permanent, and personal.
+                </p>
+                
+                <div class="grid sm:grid-cols-3 gap-8 mb-16">
+                    <div class="flex flex-col items-center space-y-4">
+                        <div class="w-16 h-16 rounded-full border border-gold-400/30 flex items-center justify-center">
+                            <i class="ph-fill ph-qr-code text-2xl text-gold-400"></i>
+                        </div>
+                        <p class="text-sm text-gray-400 font-body">Scannable authentication code</p>
+                    </div>
+                    <div class="flex flex-col items-center space-y-4">
+                        <div class="w-16 h-16 rounded-full border border-gold-400/30 flex items-center justify-center">
+                            <i class="ph-fill ph-fingerprint text-2xl text-gold-400"></i>
+                        </div>
+                        <p class="text-sm text-gray-400 font-body">Registered ownership</p>
+                    </div>
+                    <div class="flex flex-col items-center space-y-4">
+                        <div class="w-16 h-16 rounded-full border border-gold-400/30 flex items-center justify-center">
+                            <i class="ph-fill ph-lock-key text-2xl text-gold-400"></i>
+                        </div>
+                        <p class="text-sm text-gray-400 font-body">Private digital access</p>
+                    </div>
+                </div>
+
+                <p class="text-gray-400 leading-relaxed mb-6 font-body">
+                    Through a scannable code embedded into the design, each fragrance is authenticated and registered.<br>
+                    This confirms originality, ownership, and access to the private digital experience.
+                </p>
+
+                <p class="text-gold-300 font-serif italic text-lg">
+                    No two bottles share the same identity.<br>
+                    Because true luxury is never replicated.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- THE RITUAL OF RETURN SECTION -->
+    <section id="ritual-return" class="relative bg-[#050505] py-40 overflow-hidden">
+        <div class="absolute inset-0 opacity-5 bg-noise"></div>
+        
+        <div class="container mx-auto px-4 sm:px-6 relative z-10">
+            <div class="max-w-4xl mx-auto text-center gs-reveal">
+                
+                <div class="h-[1px] w-20 bg-gradient-to-r from-transparent via-gold-400 to-transparent mx-auto mb-16"></div>
+                
+                <h2 class="text-4xl sm:text-5xl md:text-6xl font-serif text-white mb-12 tracking-wide leading-tight">
+                    The Ritual of Return
+                </h2>
+
+                <div class="space-y-10">
+                    <p class="text-gray-300 text-xl sm:text-2xl leading-relaxed font-body">
+                        This fragrance is not meant to be finished quickly.
+                    </p>
+                    
+                    <p class="text-gray-400 text-lg leading-relaxed font-body">
+                        It is meant to wait — quietly — until the moment you return to it.
+                    </p>
+
+                    <p class="text-gold-300 font-serif italic text-2xl sm:text-3xl leading-relaxed pt-8">
+                        One spray, months or years later,<br>
+                        can bring back what words cannot.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- QUIET BY DESIGN SECTION -->
+    <section id="philosophy" class="relative bg-black py-32 overflow-hidden border-t border-white/5">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-gold-900/5 to-transparent blur-3xl"></div>
+        
+        <div class="container mx-auto px-4 sm:px-6 relative z-10">
+            
+            <!-- Section Header -->
+            <div class="text-center mb-20 gs-reveal">
+                <div class="h-[1px] w-24 bg-gradient-to-r from-transparent via-gold-400 to-transparent mx-auto mb-10"></div>
+                <h2 class="text-4xl sm:text-5xl md:text-6xl font-serif text-white mb-16 tracking-wide">
+                    Quiet by Design
+                </h2>
+
+                <div class="max-w-3xl mx-auto space-y-8">
+                    <div class="border-b border-gold-400/20 pb-6">
+                        <p class="text-gray-300 text-xl sm:text-2xl font-body">
+                            We do not release often.
+                        </p>
+                    </div>
+                    <div class="border-b border-gold-400/20 pb-6">
+                        <p class="text-gray-300 text-xl sm:text-2xl font-body">
+                            We do not follow trends.
+                        </p>
+                    </div>
+                    <div class="border-b border-gold-400/20 pb-6">
+                        <p class="text-gray-300 text-xl sm:text-2xl font-body">
+                            We do not speak loudly.
+                        </p>
+                    </div>
+                    
+                    <p class="text-gold-300 font-serif italic text-2xl sm:text-3xl pt-8">
+                        Our fragrances are created for those who listen —<br>
+                        not those who scroll.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- DESIGNED TO CONTINUE SECTION -->
+    <section id="refill" class="relative bg-[#0a0a0a] py-32 overflow-hidden">
+        <div class="absolute inset-0 opacity-5 bg-noise"></div>
+        
+        <div class="container mx-auto px-4 sm:px-6 relative z-10">
+            
+            <!-- Section Header -->
+            <div class="text-center mb-20 gs-reveal">
+                <div class="h-[1px] w-24 bg-gradient-to-r from-transparent via-gold-400 to-transparent mx-auto mb-10"></div>
+                <h2 class="text-4xl sm:text-5xl md:text-6xl font-serif text-white mb-8 tracking-wide">
+                    Designed to Continue
+                </h2>
+            </div>
+
+            <!-- Content -->
+            <div class="max-w-5xl mx-auto">
+                
+                <!-- Visual Diagram -->
+                <div class="grid md:grid-cols-3 gap-8 mb-16 gs-reveal">
+                    <div class="text-center">
+                        <div class="w-20 h-20 mx-auto mb-6 rounded-full border-2 border-gold-400/30 flex items-center justify-center">
+                            <i class="ph-fill ph-package text-3xl text-gold-400"></i>
+                        </div>
+                        <h3 class="text-white font-serif text-lg mb-3">Purchase Once</h3>
+                        <p class="text-gray-500 text-sm font-body">The bottle and cap are yours forever</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-20 h-20 mx-auto mb-6 rounded-full border-2 border-gold-400/30 flex items-center justify-center">
+                            <i class="ph-fill ph-arrow-counter-clockwise text-3xl text-gold-400"></i>
+                        </div>
+                        <h3 class="text-white font-serif text-lg mb-3">Refill Always</h3>
+                        <p class="text-gray-500 text-sm font-body">Return for fragrance refills only</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-20 h-20 mx-auto mb-6 rounded-full border-2 border-gold-400/30 flex items-center justify-center">
+                            <i class="ph-fill ph-infinity text-3xl text-gold-400"></i>
+                        </div>
+                        <h3 class="text-white font-serif text-lg mb-3">Keep Forever</h3>
+                        <p class="text-gray-500 text-sm font-body">The object becomes timeless</p>
+                    </div>
+                </div>
+
+                <!-- Text Content -->
+                <div class="text-center max-w-3xl mx-auto gs-reveal">
+                    <p class="text-gray-300 text-lg leading-relaxed mb-8 font-body">
+                        Each bottle is created to last.
+                    </p>
+                    <p class="text-gray-400 leading-relaxed mb-8 font-body">
+                        Refilling preserves not just the fragrance, but the memory attached to it.
+                    </p>
+                    <p class="text-gold-300 font-serif italic text-xl">
+                        What continues is not consumption — but connection.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY WE BEGAN SECTION -->
+    <section id="founders" class="relative bg-black py-40 overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-gold-900/10 to-transparent blur-3xl"></div>
+        
+        <div class="container mx-auto px-4 sm:px-6 relative z-10">
+            <div class="max-w-4xl mx-auto text-center gs-reveal">
+                
+                <div class="h-[1px] w-20 bg-gradient-to-r from-transparent via-gold-400 to-transparent mx-auto mb-16"></div>
+                
+                <h2 class="text-4xl sm:text-5xl md:text-6xl font-serif text-white mb-16 tracking-wide">
+                    Why We Began
+                </h2>
+
+                <div class="space-y-10 mb-16">
+                    <p class="text-gray-300 text-xl sm:text-2xl leading-relaxed font-body">
+                        This began as a search for a place we did not want to forget.
+                    </p>
+                    
+                    <p class="text-gray-400 text-lg leading-relaxed font-body">
+                        We realized that the most valuable things in life are not owned — they are remembered.
+                    </p>
+
+                    <p class="text-gold-300 font-serif italic text-2xl sm:text-3xl leading-relaxed pt-4">
+                        That belief shaped everything you see here.
+                    </p>
+                </div>
+
+                <!-- Signature -->
+                <div class="border-t border-white/10 pt-12">
+                    <p class="text-gray-600 text-sm font-body">
+                        — The Founders
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- THE FINAL MOMENT SECTION -->
+    <section id="final-moment" class="relative bg-[#050505] py-48 overflow-hidden border-t border-white/5">
+        <div class="absolute inset-0 opacity-5 bg-noise"></div>
+        
+        <div class="container mx-auto px-4 sm:px-6 relative z-10">
+            <div class="max-w-5xl mx-auto text-center gs-reveal">
+                
+                <p class="text-2xl sm:text-3xl md:text-4xl font-serif text-gold-200 leading-relaxed italic">
+                    "If you've ever wished you could return to a moment —<br class="hidden sm:block">
+                    this is for you."
+                </p>
+
+            </div>
+        </div>
+    </section>
+
     <footer class="bg-black pt-24 pb-12 border-t border-white/5 text-center">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-serif text-gold-100 mb-6 tracking-widest">MAISON MEMORIA</h2>
@@ -661,84 +1164,90 @@
                 name: "Banaras Eternal",
                 sub: "Spiritual Oud",
                 location: "Varanasi, India",
-                price: 15500,
+                price: 12713,
                 img: "/vanaras.png",
                 desc: "The scent of wet stone, marigold garlands, and the spiritual smoke of the evening aarti.",
                 notes: ["Sandalwood", "River Clay", "Marigold"],
                 special: "Crafted with authentic Ganga clay harvested during Kartik Purnima, this fragrance captures 5,000 years of spiritual awakening.",
                 roots: "Every drop connects you to the eternal ghats where millions have sought moksha. The sandalwood whispers ancient Vedic chants, grounding you in India's timeless soul.",
                 calm: "Reduces stress by 40% through aromatherapy proven to lower cortisol. The oud's earthy depth activates theta brain waves, inducing meditative calm within minutes.",
-                ritual: "Handcrafted by 5th-generation perfumers in Kannauj"
+                ritual: "Handcrafted by 5th-generation perfumers in Kannauj",
+                arVideo: "zfjk8D6p9gw"
             },
             {
                 id: 2,
                 name: "Golden Mirage",
                 sub: "Saffron Rose",
                 location: "Amritsar, India",
-                price: 16000,
+                price: 12713,
                 img: "/golden-temple.png",
                 desc: "A radiant composition reflecting the Golden Temple. Warm saffron and rose attar meet white musk.",
                 notes: ["Saffron", "Rose Attar", "White Musk"],
                 special: "Infused with 24K gold leaf particles and Kashmiri saffron from Pampore—the world's most precious spice, harvested at dawn.",
                 roots: "Honors the Sikh spirit of selfless service (seva) and unity. Each note reflects the Golden Temple's shimmering sarovar, where pilgrims find equality and peace.",
                 calm: "Saffron's crocin compound naturally uplifts mood and combats anxiety. Rose attar harmonizes heart rhythms, creating emotional balance and inner warmth.",
-                ritual: "Contains prayers whispered during bottling ceremonies"
+                ritual: "Contains prayers whispered during bottling ceremonies",
+                arVideo: "9HIdLauQB9c"
             },
             {
                 id: 3,
                 name: "Monk's Whisper",
                 sub: "Cedar Calm",
                 location: "Bodhgaya, India",
-                price: 15500,
+                price: 12713,
                 img: "/bodhgaya.png",
                 desc: "Absolute stillness. Inspired by the Bodhi tree and the crisp linen robes of monks in meditation.",
                 notes: ["Champa", "Linen", "Cedarwood"],
                 special: "Aged in Himalayan cedar barrels for 6 months under full moon cycles. Contains champa essence from trees blessed by Tibetan monks.",
                 roots: "Where Buddha attained enlightenment 2,500 years ago. This scent carries the profound silence of awakening, connecting you to India's Buddhist heritage.",
                 calm: "Cedarwood's sesquiterpenes increase oxygen to the brain, enhancing focus and clarity. Champa induces alpha waves—the gateway to deep meditation and inner peace.",
-                ritual: "Every bottle blessed during Vesak meditation ceremonies"
+                ritual: "Every bottle blessed during Vesak meditation ceremonies",
+                arVideo: "iGZLevxZffQ"
             },
             {
                 id: 4,
                 name: "Puri Reverie",
                 sub: "Temple Breeze",
                 location: "Jagannath Puri, India",
-                price: 15800,
+                price: 12713,
                 img: "/jaganath-temple.png",
                 desc: "Sea-kissed air mingles with sandalwood paste and the sweet warmth of mahaprasad drifting from the Jagannath Temple.",
                 notes: ["Sea Salt", "Mahaprasad Sweet", "Sandalwood"],
                 special: "Captures the divine Rath Yatra energy—the only fragrance containing actual Mahaprasad essence and Bay of Bengal sea minerals.",
                 roots: "One of India's sacred Char Dham pilgrimage sites. This scent embodies the devotion of millions who journey here annually, connecting you to bhakti tradition.",
                 calm: "Marine notes trigger parasympathetic response, lowering blood pressure. Sweet mahaprasad accord releases endorphins, creating feelings of joy and contentment.",
-                ritual: "Blessed by temple priests during Snana Yatra festival"
+                ritual: "Blessed by temple priests during Snana Yatra festival",
+                arVideo: "V2TNHLOc_nM"
             },
             {
                 id: 5,
                 name: "Meenakshi Bloom",
                 sub: "Jasmine Accord",
                 location: "Madurai, India",
-                price: 16200,
+                price: 12713,
                 img: "/menakshi.png",
                 desc: "Night-blooming jasmine garlands, stone-cool corridors, and sacred ghee lamps echo through the Meenakshi Amman corridors.",
                 notes: ["Jasmine", "Ghee Lamp", "Polished Granite"],
                 special: "Features Madurai Malli—UNESCO-recognized jasmine, handpicked at 3 AM when fragrance peaks. Each bottle contains 10,000 jasmine petals' essence.",
                 roots: "Celebrates 2,500 years of Dravidian temple architecture and Tamil Sangam poetry. Connects you to the divine feminine energy of Goddess Meenakshi.",
                 calm: "Jasmine's benzyl acetate reduces heart rate and anxiety by 30%. The cooling granite note brings grounding stability, perfect for evening unwinding rituals.",
-                ritual: "Crafted during Chithirai festival under temple bells' blessings"
+                ritual: "Crafted during Chithirai festival under temple bells' blessings",
+                arVideo: "Dhzbjzfl5rY"
             },
             {
                 id: 6,
                 name: "Kedarnath Dawn",
                 sub: "Himalayan Resin",
                 location: "Kedarnath, India",
-                price: 16500,
+                price: 12713,
                 img: "/kedarnath.png",
                 desc: "Glacial breeze over stone shrines, pine resin on wool shawls, and a spark of camphor from the first aarti at dawn.",
                 notes: ["Pine Resin", "Camphor", "Glacial Air"],
                 special: "Contains wild Himalayan pine resin collected at 11,755 ft elevation and pure camphor from Lord Shiva's abode—nature's most powerful purifier.",
                 roots: "One of the 12 Jyotirlingas where Shiva resides. This fragrance carries the spiritual power of the Himalayas, India's sacred mountain gateway to divine consciousness.",
                 calm: "Camphor's terpenes clear mental fog and enhance respiratory function. Pine resin boosts immunity while inducing serene, grounded awareness—perfect for morning sadhana.",
-                ritual: "Mountain spring water added during full moon at 3,583m altitude"
+                ritual: "Mountain spring water added during full moon at 3,583m altitude",
+                arVideo: "FQ2dYjCEqC0"
             }
         ];
 
@@ -774,8 +1283,8 @@
             card.innerHTML = `
                 <div class="relative h-[450px] rounded-[2.5rem] overflow-hidden mb-6 bg-dark-800 border border-white/5 transition-all duration-500 group-hover:border-gold-400/50 group-hover:shadow-2xl group-hover:shadow-gold-900/20">
                     <img src="${p.img}" class="w-full h-full object-cover opacity-70 group-hover:scale-110 transition duration-[1.5s] grayscale group-hover:grayscale-0">
-                    <div class="absolute top-6 right-6 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
-                        <span class="text-[10px] text-gold-400 uppercase tracking-widest font-bold">AR Ready</span>
+                    <div class="absolute top-6 right-6 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 hover:border-gold-400/50 hover:bg-gold-400/20 transition z-10" onclick="event.stopPropagation(); showAR(${p.id})">
+                        <span class="text-[10px] text-gold-400 uppercase tracking-widest font-bold cursor-pointer">AR Ready</span>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black via-black/80 to-transparent">
                         <span class="text-gold-500 text-[10px] font-bold tracking-[0.2em] uppercase block mb-2">${p.location}</span>
@@ -786,7 +1295,7 @@
             grid.appendChild(card);
         });
 
-        function changeScreen(mode) {
+        function changeScreen(mode, videoId = 'zfjk8D6p9gw') {
             const screen = document.getElementById('phone-screen');
             screen.style.opacity = '0';
             
@@ -816,18 +1325,22 @@
                             </div>
                         </div>`;
                 } else if (mode === 'ar') {
+                    const product = products.find(p => p.arVideo === videoId);
+                    const productName = product?.name || 'Sacred Place';
+                    const location = product?.location || 'India';
                     content = `
-                        <div class="flex-1 relative overflow-hidden rounded-2xl mb-4 bg-gray-900">
+                        <div class="flex-1 relative overflow-hidden rounded-2xl mb-4 bg-black">
                             <iframe 
                                 class="w-full h-full rounded-2xl" 
-                                src="https://www.youtube.com/embed/zfjk8D6p9gw?autoplay=1&mute=1&loop=1&playlist=zfjk8D6p9gw&controls=0&modestbranding=1" 
+                                src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=1&rel=0&modestbranding=1" 
                                 frameborder="0" 
-                                allow="autoplay; encrypted-media" 
-                                allowfullscreen>
+                                allow="autoplay; encrypted-media; picture-in-picture" 
+                                allowfullscreen
+                                style="min-height: 400px;">
                             </iframe>
-                            <div class="absolute bottom-4 left-4 right-4 bg-black/60 backdrop-blur p-3 rounded-xl pointer-events-none">
-                                <p class="text-xs text-white">Viewing: Varanasi Ghats</p>
-                                <p class="text-[10px] text-gold-400 mt-1">Live AR Experience</p>
+                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-4 pointer-events-none">
+                                <p class="text-xs text-white font-bold">${productName}</p>
+                                <p class="text-[10px] text-gold-400 mt-1">${location} • AR Portal</p>
                             </div>
                         </div>`;
                 }
@@ -843,6 +1356,19 @@
                 screen.innerHTML = content;
                 screen.style.opacity = '1';
             }, 400);
+        }
+
+        function showAR(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product || !product.arVideo) return;
+            
+            // Scroll to app section smoothly
+            document.getElementById('app').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // Wait for scroll to complete, then change screen to AR mode with product's video
+            setTimeout(() => {
+                changeScreen('ar', product.arVideo);
+            }, 800);
         }
 
         let cartCount = 0;
@@ -903,8 +1429,15 @@
         }
 
         function addToCart(product) {
-            cart.push(product);
-            cartCount = cart.length;
+            const existingItem = cart.find(item => item.id === product.id);
+            
+            if (existingItem) {
+                existingItem.quantity = (existingItem.quantity || 1) + 1;
+            } else {
+                cart.push({...product, quantity: 1});
+            }
+            
+            cartCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
             
             document.getElementById('cart-badge').innerText = cartCount;
             document.getElementById('cart-badge').style.opacity = '1';
@@ -928,18 +1461,19 @@
             let total = 0;
             
             cart.forEach((product, index) => {
-                total += product.price;
+                const quantity = product.quantity || 1;
+                total += product.price * quantity;
                 const item = document.createElement('div');
                 item.className = "flex gap-4 items-center border-b border-white/5 pb-4";
                 item.innerHTML = `
-                    <div class="w-16 h-16 bg-gray-800 rounded-xl overflow-hidden">
+                    <div class="w-16 h-16 bg-gray-800 rounded-xl overflow-hidden flex-shrink-0">
                        <img src="${product.img}" class="w-full h-full object-cover">
                     </div>
-                    <div class="flex-1">
+                    <div class="flex-1 min-w-0">
                         <h4 class="text-white font-serif text-sm">${product.name}</h4>
-                        <p class="text-gold-400 text-xs" data-price="${product.price}">${formatPrice(product.price)}</p>
+                        <p class="text-gold-400 text-xs" data-price="${product.price}">${formatPrice(product.price)} × ${quantity}</p>
                     </div>
-                    <button onclick="removeFromCart(${index})" class="text-gray-500 hover:text-red-400 transition">
+                    <button onclick="removeFromCart(${index})" class="text-gray-500 hover:text-red-400 transition flex-shrink-0">
                         <i class="ph ph-x text-lg"></i>
                     </button>
                 `;
@@ -953,7 +1487,7 @@
         
         function removeFromCart(index) {
             cart.splice(index, 1);
-            cartCount = cart.length;
+            cartCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
             document.getElementById('cart-badge').innerText = cartCount;
             if (cartCount === 0) {
                 document.getElementById('cart-badge').style.opacity = '0';
@@ -986,6 +1520,10 @@
             document.getElementById('modal-ritual').innerText = p.ritual;
 
             document.getElementById('modal-btn').onclick = () => addToCart(p);
+            document.getElementById('modal-ar-btn').onclick = () => {
+                closeModal();
+                showAR(p.id);
+            };
             likeBtn.dataset.productId = id;
             updateLikeButton(id);
 
@@ -1025,18 +1563,31 @@
             checkoutItems.innerHTML = '';
             
             let subtotal = 0;
-            cart.forEach(product => {
-                subtotal += product.price;
+            cart.forEach((product, index) => {
+                const quantity = product.quantity || 1;
+                subtotal += product.price * quantity;
                 const item = document.createElement('div');
-                item.className = "flex gap-4 items-center border-b border-white/5 pb-4";
+                item.className = "flex gap-3 items-center border-b border-white/5 pb-4";
                 item.innerHTML = `
-                    <div class="w-16 h-16 bg-gray-800 rounded-xl overflow-hidden">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-gray-800 rounded-xl overflow-hidden flex-shrink-0">
                        <img src="${product.img}" class="w-full h-full object-cover">
                     </div>
-                    <div class="flex-1">
-                        <h4 class="text-white font-serif text-sm">${product.name}</h4>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-white font-serif text-sm truncate">${product.name}</h4>
                         <p class="text-gold-400 text-xs" data-price="${product.price}">${formatPrice(product.price)}</p>
                     </div>
+                    <div class="flex items-center gap-2 flex-shrink-0">
+                        <button onclick="updateQuantity(${index}, -1)" class="w-7 h-7 rounded-lg bg-dark-800 border border-white/10 text-gray-400 hover:text-white hover:border-gold-400 transition flex items-center justify-center">
+                            <i class="ph ph-minus text-sm"></i>
+                        </button>
+                        <span class="text-white text-sm w-6 text-center">${quantity}</span>
+                        <button onclick="updateQuantity(${index}, 1)" class="w-7 h-7 rounded-lg bg-dark-800 border border-white/10 text-gray-400 hover:text-white hover:border-gold-400 transition flex items-center justify-center">
+                            <i class="ph ph-plus text-sm"></i>
+                        </button>
+                    </div>
+                    <button onclick="removeFromCheckout(${index})" class="text-gray-500 hover:text-red-400 transition flex-shrink-0">
+                        <i class="ph ph-trash text-lg"></i>
+                    </button>
                 `;
                 checkoutItems.appendChild(item);
             });
@@ -1074,6 +1625,35 @@
                 checkoutModal.classList.add('hidden');
                 checkoutModal.classList.remove('flex');
             }, 500);
+        }
+
+        function updateQuantity(index, change) {
+            if (!cart[index].quantity) cart[index].quantity = 1;
+            cart[index].quantity += change;
+            
+            if (cart[index].quantity <= 0) {
+                removeFromCheckout(index);
+                return;
+            }
+            
+            openCheckout();
+        }
+
+        function removeFromCheckout(index) {
+            cart.splice(index, 1);
+            cartCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            
+            if (cart.length === 0) {
+                closeCheckout();
+                document.getElementById('cart-badge').style.opacity = '0';
+                document.getElementById('cart-items').innerHTML = '<p class="text-gray-600 text-center italic mt-10">Your sanctuary is empty.</p>';
+                document.getElementById('cart-total').textContent = formatPrice(0);
+                document.getElementById('cart-total').setAttribute('data-price', 0);
+            } else {
+                document.getElementById('cart-badge').textContent = cartCount;
+                openCheckout();
+                updateCart();
+            }
         }
 
         document.getElementById('checkout-form').addEventListener('submit', function(e) {
