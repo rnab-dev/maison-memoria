@@ -10,11 +10,21 @@ From there, we explored India’s sacred spaces, emotions, and cultural depth �
 
 ---
 
+## 👥 Team  
+
+This project was created for **L'Oréal Brandstorm 2026** by:  
+
+- **Arnab**  
+- **Sakshee**  
+- **Gaurav**  
+
+---
+
 ## 🌟 What this project is  
 
 - A **luxury fragrance brand concept** inspired by India’s spiritual heritage  
 - A **digital experience** combining scent, memory, and storytelling  
-- An attempt to blend **culture + technology + emotion** into one platform  
+- A blend of **culture, technology, and emotion**  
 
 This is not just about perfumes — it’s about how places, moments, and feelings stay with us.
 
@@ -61,5 +71,5 @@ git init
 git add .
 git commit -m "Maison Memoria - Brandstorm Project"
 git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/maison-memoria.git
+git remote add origin https://github.com/arnavv/maison-memoria.git
 git push -u origin main
